@@ -1,7 +1,7 @@
 PLATFORMS = {
-    "amazon": {
-        "search_url": "https://www.amazon.fr/s?k={}",
-        "base_url": "https://www.amazon.fr"
+    "aliexpress": {
+        "search_url": "https://www.aliexpress.com/wholesale?SearchText={}",
+        "base_url": "https://www.aliexpress.com"
     },
     "jumia": {
         "search_url": "https://www.jumia.ma/catalog/?q={}",
