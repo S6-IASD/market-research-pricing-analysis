@@ -18,7 +18,7 @@ class AliexpressSpider(BaseSpider):
         logger = get_logger("AliexpressSpider")
         logger.info(f"Fetching: {url}")
         
-        client = HttpClient()
+        client = HttpClient(platform="aliexpress")
         return client.get(url)
     
     def parse(self, html: str) -> list:

@@ -7,7 +7,7 @@ def main():
     print("=" * 50)
     
     # On teste avec "laptop" comme produit
-    spider = JumiaSpider("smartphone")
+    spider = JumiaSpider("tv")
     results = spider.run()
     
     print("\n" + "=" * 50)

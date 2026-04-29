@@ -18,7 +18,7 @@ class JumiaSpider(BaseSpider):
         logger = get_logger("JumiaSpider")
         logger.info(f"Fetching: {url}")
         
-        client = HttpClient()
+        client = HttpClient(platform="jumia")
         return client.get(url)
     
     def parse(self, html: str) -> list:
