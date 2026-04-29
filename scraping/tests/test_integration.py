@@ -8,7 +8,7 @@ from scraping.services.data_exporter import DataExporter
 
 def test_full_pipeline():
     # Définir query ici
-    query = "phone"
+    query = "laptop"
     category = "electronics"
     platforms = ["jumia", "ebay", "aliexpress"]
 

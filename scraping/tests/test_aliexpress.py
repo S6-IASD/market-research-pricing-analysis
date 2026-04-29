@@ -2,8 +2,8 @@ from scraping.spiders.aliexpress_spider import AliexpressSpider
 
 
 def main():
-    spider = AliexpressSpider("phone")
-    results = spider.run(max_retries=3)
+    spider = AliexpressSpider("tv")
+    results = spider.run()
 
     print(f"\n{'='*50}")
     print(f"Produits trouvés: {len(results)}")
