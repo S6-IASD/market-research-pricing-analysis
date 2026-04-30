@@ -1,0 +1,81 @@
+version: "3.9"
+
+services:
+
+  # ── PostgreSQL ──────────────────────────────────────────
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: market_db
+      POSTGRES_USER: market_user
+      POSTGRES_PASSWORD: market_secret
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # ── Redis ───────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  # ── Django Backend ──────────────────────────────────────
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+    environment:
+      DATABASE_URL: postgres://market_user:market_secret@db/market_db
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: dev-secret-key
+      DEBUG: "True"
+    volumes:
+      - ./scraping:/app/scraping:ro
+    command: python manage.py runserver 0.0.0.0:8000
+
+  # ── Celery Worker ───────────────────────────────────────
+  celery_worker:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    depends_on:
+      - backend
+      - db
+      - redis
+    environment:
+      DATABASE_URL: postgres://market_user:market_secret@db/market_db
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: dev-secret-key
+      DEBUG: "True"
+    volumes:
+      - ./scraping:/app/scraping:ro
+    command: celery -A config worker --loglevel=info --concurrency=3
+
+  # ── Celery Beat (Scheduled Tasks) ──────────────────────
+  celery_beat:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    depends_on:
+      - backend
+      - db
+      - redis
+    environment:
+      DATABASE_URL: postgres://market_user:market_secret@db/market_db
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: dev-secret-key
+      DEBUG: "True"
+    volumes:
+      - ./scraping:/app/scraping:ro
+    command: celery -A config beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+
+volumes:
+  postgres_data:
