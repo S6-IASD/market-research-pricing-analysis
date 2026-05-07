@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Dict
+import time
+import random
 
 
 class BaseSpider(ABC):
@@ -28,10 +30,6 @@ class BaseSpider(ABC):
 
     @abstractmethod
     def _is_empty_page(self, html: str) -> bool:
-        """
-        Retourne True si la page ne contient AUCUN article brut
-        (vraie fin de catalogue), pas juste des produits filtrés.
-        """
         pass
 
     def run(self, max_pages: int = 10) -> List[Dict]:
@@ -45,7 +43,12 @@ class BaseSpider(ABC):
             if not html:
                 break
 
-            # 🔥 Vérifie si c'est une vraie page vide (fin de catalogue)
+            # 🔥 DÉLAI ANTI-BOT ENTRE PAGES
+            if self.platform == "ebay" and page < max_pages:
+                delay = random.uniform(5, 10)
+                print(f"  ⏳ Attente {delay:.1f}s pour éviter le blocage eBay...")
+                time.sleep(delay)
+
             if self._is_empty_page(html):
                 empty_pages_count += 1
                 if empty_pages_count >= 2:
@@ -56,9 +59,6 @@ class BaseSpider(ABC):
                 empty_pages_count = 0
 
             products = self.parse(html)
-
-            # 🔥 NE PLUS s'arrêter si 0 produits validés
-            # On continue pour les pages suivantes
 
             for p in products:
                 p["platform"] = self.platform
