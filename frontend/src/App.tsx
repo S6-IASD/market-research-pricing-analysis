@@ -1,28 +1,17 @@
 import { Component, useState } from "react";
-import SearchBar from "./components/SearchBar";
+
+import Header from "./components/Header";
+import Main from "./components/Main";
+import Footer from "./components/Footer";
 
 function App() {
   return (
-    <div>
-      <header>
-        <div>
-          <h1>Market Research & Pricing Analysis</h1>
-          <p>Analyse intelligente des prix e-commerce</p>
-        </div>
-      </header>
+    <div >
+      <Header />
 
-      <main>
-        <SearchBar />
-      </main>
+      <Main />
 
-      <footer>
-        <div>
-          <p>
-            Projet Data Mining - Licence IASD 2025/2026 All rights
-            reserved.&copy;
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
