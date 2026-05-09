@@ -3,3 +3,9 @@ export const PLATEFORMS = [
     {id: "ebay", name: "ebay.fr"},
     {id: "aliexpress", name: "aliexpress.com"}
 ] as const;
+
+export interface scrapeRequest{
+    query: string;
+    category?: string;
+    platforms?: string[];
+}
