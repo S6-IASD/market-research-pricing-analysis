@@ -6,7 +6,7 @@ import Footer from "./components/Footer";
 
 function App() {
   return (
-    <div className="min-h-screen border border-slate-50">
+    <div className="min-h-screen border border-slate-50 overflow-x-hidden">
       <Header />
 
       <Main />
