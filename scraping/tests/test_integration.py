@@ -6,11 +6,9 @@ from scraping.services.scraper_service import ScraperService
 from scraping.services.data_exporter import DataExporter
 
 
-def test_full_pipeline():
-    # Définir query ici
-    query = "laptop"
-    category = "electronics"
-    platforms = ["jumia", "ebay", "aliexpress"]
+def test_full_pipeline(query="laptop", category="electronics", platforms=None):
+    if platforms is None:
+        platforms = ["jumia", "ebay", "aliexpress"]
 
     service = ScraperService()
 

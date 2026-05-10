@@ -38,6 +38,8 @@ class SearchView(APIView):
     def post(self, request):
         raw_query = request.data.get("query", "").strip()
         deep_search = request.data.get("deep_search", False)
+        category = request.data.get("category", None)
+        platforms = request.data.get("platforms", None)
 
         if not raw_query:
             return Response(
@@ -59,7 +61,7 @@ class SearchView(APIView):
         # ── 3. Deep search (scraping live) ──
         task_id = None
         if deep_search:
-            task_id = self._handle_deep_search(request.user, cleaned_query)
+            task_id = self._handle_deep_search(request.user, cleaned_query, category, platforms)
             if task_id is None:
                 return Response(
                     {"error": "Limite de 5 deep searches par jour atteinte."},
@@ -134,7 +136,7 @@ class SearchView(APIView):
 
     # ─────────────────────────────────────────────────────────
 
-    def _handle_deep_search(self, user, cleaned_query: str):
+    def _handle_deep_search(self, user, cleaned_query: str, category: str = None, platforms: list = None):
         """
         Lance un scraping via Celery si la limite quotidienne n'est pas atteinte.
         Retourne le task_id Celery ou None si limite dépassée.
@@ -161,6 +163,8 @@ class SearchView(APIView):
         celery_result = deep_search_task.apply_async(
             kwargs={
                 "query": cleaned_query,
+                "category": category,
+                "platforms": platforms,
                 "task_db_id": search_task.id,
             },
             task_id=task_uuid,
