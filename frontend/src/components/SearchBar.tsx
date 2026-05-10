@@ -14,7 +14,7 @@ const PLATEFORMS = [
   { id: 'aliexpress', label: 'AliExpress' },
 ] as const;
 
-export default function SearchBar(/*{onSearch, isloading}: searchBarProps*/) {
+export default function SearchBar({onSearch, isloading}: searchBarProps) {
   const [query, setQuery] = useState("");
   const [category, setCat] = useState("");
   const [selectedPlat, setSelectedPlat] = useState<string[]>([]);
@@ -24,11 +24,11 @@ export default function SearchBar(/*{onSearch, isloading}: searchBarProps*/) {
   const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
     if(!query.trim()) return;
-    // onSearch({
-    //   query: query.trim(),
-    //   category: category.trim() || undefined,
-    //   platforms: selectedPlat.length > 0? selectedPlat : undefined,
-    // });
+    onSearch({
+      query: query.trim(),
+      category: category.trim() || undefined,
+      platforms: selectedPlat.length > 0? selectedPlat : undefined,
+    });
 
   };
 
@@ -101,7 +101,7 @@ export default function SearchBar(/*{onSearch, isloading}: searchBarProps*/) {
         </article>
 
         <button
-        disabled={/*isloading ||*/ !query.trim()}
+        disabled={isloading || !query.trim()}
          className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg
         hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-300
         font-medium transition-colors hover:cursor-pointer lg:-mt-4"
