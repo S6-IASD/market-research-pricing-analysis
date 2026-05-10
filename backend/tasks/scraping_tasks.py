@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 # ── Tâche 1 — Deep Search ───────────────────────────────────
 
 @shared_task(bind=True, max_retries=2)
-def deep_search_task(self, query: str, task_db_id: int = None):
+def deep_search_task(self, query: str, category: str = None, platforms: list = None, task_db_id: int = None):
     """
     Lance un scraping live sur toutes les plateformes via le module scraping,
     sauvegarde les produits et snapshots en base, et met à jour la SearchTask.
@@ -36,9 +36,9 @@ def deep_search_task(self, query: str, task_db_id: int = None):
         _update_task_status(task_db_id, "running")
 
     try:
-        # ── Appel au module scraping ──
-        service = get_scraper_service()
-        result = service.scrape(query=query)
+        # ── Appel au module scraping via test_integration ──
+        from scraping.tests.test_integration import test_full_pipeline
+        result = test_full_pipeline(query=query, category=category, platforms=platforms)
         products_data = result.get("products", [])
 
         # ── Sauvegarde en base ──
