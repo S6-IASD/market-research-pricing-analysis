@@ -2,7 +2,7 @@ from scraping.spiders.aliexpress_spider import AliexpressSpider
 
 
 def main():
-    spider = AliexpressSpider("tv")
+    spider = AliexpressSpider("laptop")
     results = spider.run()
 
     print(f"\n{'='*50}")

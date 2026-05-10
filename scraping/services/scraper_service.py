@@ -6,6 +6,12 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 import time
+import sys
+from pathlib import Path
+
+# Ajouter la racine du projet au path
+project_root = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(project_root))
 
 from scraping.spiders.jumia_spider import JumiaSpider
 from scraping.spiders.ebay_spider import EbaySpider
@@ -128,3 +134,48 @@ def get_scraper_service() -> ScraperService:
     if _scraper_instance is None:
         _scraper_instance = ScraperService()
     return _scraper_instance
+
+
+# ============================================================
+# TEST DIRECT
+# ============================================================
+if __name__ == "__main__":
+    print("=" * 60)
+    print("🚀 TEST SCRAPER SERVICE")
+    print("=" * 60)
+    
+    service = get_scraper_service()
+    
+    result = service.scrape(
+        query="laptop",
+        category_hint="laptop",
+        platforms=["ebay", "aliexpress"],  # Jumia désactivé pour l'instant
+        max_workers=2
+    )
+    
+    print(f"\n📊 STATUS: {result['status']}")
+    print(f"🔍 Query: {result['query']}")
+    print(f"📁 Category: {result['category']}")
+    print(f"⏱️  Execution time: {result['execution_time_ms']}ms")
+    print(f"📦 Total products: {result['stats']['total_products']}")
+    print(f"📈 Raw extracted: {result['stats']['raw_extracted']}")
+    print(f"🌐 By platform: {result['stats']['by_platform']}")
+    
+    if result['stats']['errors']:
+        print(f"\n❌ Errors: {result['stats']['errors']}")
+    
+    if result['stats']['deduplicated']:
+        print(f"🗑️  Deduplicated: {result['stats']['deduplicated']}")
+    
+    print(f"\n{'=' * 60}")
+    print("TOP 10 PRODUITS")
+    print(f"{'=' * 60}")
+    
+    for i, p in enumerate(result['products'][:10], 1):
+        print(f"\n{i}. [{p['platform'].upper()}] {p['title'][:70]}")
+        print(f"   💰 {p['price']} {p['currency']}")
+        print(f"   🔗 {p['url'][:60]}...")
+    
+    print(f"\n{'=' * 60}")
+    print("✅ TEST TERMINÉ")
+    print(f"{'=' * 60}")
