@@ -1,4 +1,4 @@
-export const PLATEFORMS = [
+export const PLATFORMS = [
     {id : "jumia", name: "jumia.ma"},
     {id: "ebay", name: "ebay.fr"},
     {id: "aliexpress", name: "aliexpress.com"}
@@ -15,7 +15,7 @@ export interface Product{
     image?: string;
     seller?: string;
     rating?: string;
-    reviews_count: string;
+    reviews_count: number;
     attributes: Record<string,string>;
     scraped_at: string;
     search_query: string;
@@ -29,7 +29,7 @@ export interface ScrapeStats{
     total_products: number;
     raw_extracted: number;
     by_platform: PlatformStats;
-    errors: [{platform: string; error: string;}];
+    errors: {platform: string; error: string;}[];
     rejected: number;
     deduplicated: number;
 }

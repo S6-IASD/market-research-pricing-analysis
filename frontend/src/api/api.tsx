@@ -7,12 +7,12 @@ export async function scrapeProducts(request: scrapeRequest):Promise<scrapeRespo
     const Response = await fetch(`${API_BASE_URL}/api/scrape/`,{
         method: "POST",
         headers: {
-            'Content_Type': 'application/json',
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(request),
     });
     if(!Response.ok){
-        const errorData = await Response.json().catch(()=>({error: 'erreur inkonuu'}));
+        const errorData = await Response.json().catch(()=>({error: 'erreur inconnue'}));
         throw new Error(errorData.error || `HTTP ${Response.status}`);
     }
 

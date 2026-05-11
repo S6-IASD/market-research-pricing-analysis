@@ -53,7 +53,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             )}
           </div>
 
-          {Object.keys(product.attributes).length > 0 && (
+          {product.attributes && Object.keys(product.attributes).length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1">
               {Object.entries(product.attributes).map(([key, value]) => (
                 <span
@@ -71,7 +71,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             rel="noopener noreferrer"
             className="mt-2 inline-block text-sm text-blue-600 hover:text-blue-800"
           >
-            Voir le produits →
+            Voir le produit →
           </a>
         </div>
       </div>
