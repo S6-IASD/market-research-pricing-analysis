@@ -1,0 +1,130 @@
+.hero-gradient-text {
+  background: linear-gradient(90deg, #4da1ff 0%, #a261ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.search-container {
+  background: rgba(10, 30, 60, 0.5);
+  border: 1px solid rgba(77, 161, 255, 0.2);
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.search-input {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #fff !important;
+  flex: 1;
+}
+
+.search-input input::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.search-btn {
+  background: linear-gradient(90deg, #4da1ff 0%, #624aff 100%) !important;
+  border: none !important;
+  border-radius: 30px !important;
+  padding: 0 24px !important;
+  height: 40px !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.custom-checkbox-group .ant-checkbox-wrapper {
+  color: #fff;
+  font-size: 14px;
+}
+
+.main-cta-btn {
+  background: linear-gradient(90deg, #3884ff 0%, #624aff 100%) !important;
+  border: none !important;
+  box-shadow: 0 8px 24px rgba(56, 132, 255, 0.3) !important;
+}
+
+.stat-card {
+  background: #061526 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 16px !important;
+}
+
+.stat-card .ant-card-body {
+  padding: 24px !important;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.stat-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-title {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.stat-change {
+  font-size: 12px;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-change.positive {
+  color: #52c41a;
+}
+
+.stat-change.negative {
+  color: #ff4d4f;
+}
+
+.nav-link {
+  color: rgba(255, 255, 255, 0.65) !important;
+  font-weight: 500;
+}
+
+.nav-link.active {
+  color: #fff !important;
+  border-bottom: 2px solid #4da1ff;
+  border-radius: 0;
+  padding-bottom: 2px;
+}
+
+.header-btn-logout {
+  background: transparent !important;
+  border: 1px solid #ff4d4f !important;
+  color: #ff4d4f !important;
+  border-radius: 20px !important;
+}
+
+.header-btn-logout:hover {
+  background: rgba(255, 77, 79, 0.1) !important;
+}

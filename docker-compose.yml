@@ -46,6 +46,7 @@ services:
     build:
       context: .
       dockerfile: backend/Dockerfile
+    shm_size: '2gb'
     depends_on:
       - backend
       - db

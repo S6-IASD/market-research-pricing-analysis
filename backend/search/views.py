@@ -214,3 +214,40 @@ class SearchStatusView(APIView):
             "result_count": task.result_count,
             "finished_at": task.finished_at,
         })
+
+
+# ── Vue 3 — Data Mining (Analyse) ───────────────────────────
+
+from products.services.datamining_service import analyze_products
+
+class AnalyzeDataView(APIView):
+    """
+    GET /api/search/analyze/?q=laptop
+    
+    Retourne les résultats du Data Mining :
+    - Statistiques des prix
+    - Clustering des produits
+    - Détection des anomalies
+    """
+    
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        query = request.query_params.get('q', '').strip()
+        if not query:
+            return Response(
+                {"error": "Le paramètre 'q' est obligatoire pour l'analyse."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            result = analyze_products(query)
+            if "error" in result:
+                return Response(result, status=status.HTTP_400_BAD_REQUEST)
+                
+            return Response(result, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response(
+                {"error": f"Erreur lors de l'analyse : {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

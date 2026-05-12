@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 # ── Tâche 1 — Deep Search ───────────────────────────────────
 
-@shared_task(bind=True, max_retries=2)
+@shared_task(bind=True, max_retries=2, soft_time_limit=600, time_limit=720)
 def deep_search_task(self, query: str, category: str = None, platforms: list = None, task_db_id: int = None):
     """
     Lance un scraping live sur toutes les plateformes via le module scraping,

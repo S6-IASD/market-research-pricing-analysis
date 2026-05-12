@@ -1,39 +1,14 @@
 import re
-import time
-import random
-import requests
 from bs4 import BeautifulSoup
 from scraping.spiders.base_spider import BaseSpider
 from scraping.parsers.jumia_parser import JumiaParser
-
-USER_AGENTS = [
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:125.0) Gecko/20100101 Firefox/125.0",
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36",
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36",
-]
-
-PROXIES_LIST = [
-    None,  # connexion directe en fallback
-]
-
-
-def get_headers() -> dict:
-    return {
-        "User-Agent": random.choice(USER_AGENTS),
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Language": "fr-MA,fr;q=0.9,en;q=0.8",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Connection": "keep-alive",
-        "Upgrade-Insecure-Requests": "1",
-    }
-
+from scraping.utils.http_client import HttpClient
+from scraping.utils.logger import get_logger
 
 class JumiaSpider(BaseSpider):
     """
     Spider Jumia — hérite de BaseSpider.
     Implémente : get_platform_name, build_search_url, fetch, parse, _is_empty_page.
-    Hérite de run() pour la boucle de pagination.
     """
 
     BASE_URL = "https://www.jumia.ma/catalog/?q={query}&page={page}"
@@ -51,39 +26,13 @@ class JumiaSpider(BaseSpider):
     def build_search_url(self, page: int) -> str:
         return self.BASE_URL.format(query=self.query, page=page)
 
-    # ── 3. FETCH AVEC PROXY + UA FALLBACK ──────────────────────────────────
+    # ── 3. FETCH AVEC HTTP CLIENT (PLAYWRIGHT) ──────────────────────────────
     def fetch(self, url: str) -> str | None:
-        for i, proxy in enumerate(PROXIES_LIST, 1):
-            headers = get_headers()
-            proxy_config = {"http": proxy, "https": proxy} if proxy else None
-            label = proxy or "DIRECT"
-
-            try:
-                print(f"  [#{i}] {label} | UA: {headers['User-Agent'][:45]}...")
-                r = requests.get(
-                    url,
-                    headers=headers,
-                    proxies=proxy_config,
-                    timeout=15,
-                    allow_redirects=True,
-                )
-
-                if r.status_code == 200:
-                    print(f"  ✅ Succès ({label})")
-                    time.sleep(random.uniform(2, 5))
-                    return r.text
-
-                print(f"  ⚠️  HTTP {r.status_code} ({label})")
-
-            except requests.exceptions.ProxyError:
-                print(f"  ❌ Proxy mort : {label}")
-            except requests.exceptions.Timeout:
-                print(f"  ⏱️  Timeout : {label}")
-            except requests.exceptions.ConnectionError as e:
-                print(f"  🔌 Connexion échouée : {label} — {e}")
-
-        print("  💀 Tous les proxies ont échoué.")
-        return None
+        logger = get_logger("JumiaSpider")
+        logger.info(f"Fetching: {url}")
+        client = HttpClient(platform="jumia")
+        html = client.get(url)
+        return html if html else None
 
     # ── 4. VÉRIFICATION FIN DE CATALOGUE ───────────────────────────────────
     def _is_empty_page(self, html: str) -> bool:

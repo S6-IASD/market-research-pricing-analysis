@@ -11,7 +11,7 @@ from rest_framework_simplejwt.views import (
 )
 
 from products.views import ProductListView, ProductDetailView
-from search.views import SearchView, SearchStatusView
+from search.views import SearchView, SearchStatusView, AnalyzeDataView
 from config.auth_views import RegisterView
 
 urlpatterns = [
@@ -26,7 +26,8 @@ urlpatterns = [
     path('api/products/', ProductListView.as_view(), name='product-list'),
     path('api/products/<int:pk>/', ProductDetailView.as_view(), name='product-detail'),
 
-    # Search & Scraping
+    # Search & Scraping & Data Mining
     path('api/search/', SearchView.as_view(), name='search'),
+    path('api/search/analyze/', AnalyzeDataView.as_view(), name='search-analyze'),
     path('api/search/<str:task_id>/status/', SearchStatusView.as_view(), name='search-status'),
 ]
