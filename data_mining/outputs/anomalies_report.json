@@ -1,0 +1,61 @@
+{
+  "config": {
+    "features": [
+      "price",
+      "ram_gb",
+      "storage_gb"
+    ],
+    "contamination": 0.1,
+    "iso_n_estimators": 200,
+    "lof_n_neighbors": 10,
+    "voting": "strict (AND)"
+  },
+  "summary": {
+    "total_products": 50,
+    "iso_anomalies": 5,
+    "lof_anomalies": 5,
+    "strict_anomalies": 3,
+    "soft_anomalies": 7,
+    "anomaly_rate_pct": 6.0,
+    "prix_suspect_bas": 1,
+    "prix_suspect_haut": 2,
+    "price_median_normal": 12244.42
+  },
+  "by_platform": [
+    {
+      "platform": "aliexpress",
+      "anomalies": 3,
+      "total": 48,
+      "% anomalies": 6.2
+    },
+    {
+      "platform": "jumia",
+      "anomalies": 0,
+      "total": 2,
+      "% anomalies": 0.0
+    }
+  ],
+  "anomalies": [
+    {
+      "title": "Lenovo Gaming Laptop LEGION Y9000P 2025 Supreme Edition AI Yuanqi 16-inch 240Hz Ultra9-275HX 32GB+1TB RTX5080 Gaming Notebook PC",
+      "price": 45362.04,
+      "platform": "aliexpress",
+      "anomaly_score": 0.8632503108403725,
+      "anomaly_type": "prix_suspect_haut"
+    },
+    {
+      "title": "DR-AZ Gaming Laptop Intel Core i7-13620H 16'' 64GB 2TB computer 1920*1200 5000 mAh Win 11 1920x1200 Fingerprint backlit Laptop",
+      "price": 6349.25,
+      "platform": "aliexpress",
+      "anomaly_score": 0.850469971420966,
+      "anomaly_type": "prix_suspect_bas"
+    },
+    {
+      "title": "2026 GPD Pocket4 Latest AMD AI 9 HX 370/8840U 64GB 2TB NVMe 8.8 Inch 144Hz 2in1 Laptop Tablet Palm Size MiniPC",
+      "price": 18361.21,
+      "platform": "aliexpress",
+      "anomaly_score": 0.7672808427794473,
+      "anomaly_type": "prix_suspect_haut"
+    }
+  ]
+}

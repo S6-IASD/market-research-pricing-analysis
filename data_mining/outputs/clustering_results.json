@@ -1,0 +1,83 @@
+{
+  "features_used": [
+    "price",
+    "ram_gb",
+    "storage_gb"
+  ],
+  "features_excluded": {
+    "rating": "100% NaN dans le dataset source",
+    "reviews_count": "100% zéro dans le dataset source"
+  },
+  "kmeans": {
+    "k": 3,
+    "silhouette_score": 0.4932,
+    "inertia": 50.16,
+    "label_map": {
+      "1": "bas_de_gamme",
+      "0": "milieu_de_gamme",
+      "2": "haut_de_gamme"
+    },
+    "cluster_profiles": [
+      {
+        "cluster": "bas_de_gamme",
+        "count": 35,
+        "prix_min": 2602.93,
+        "prix_median": 8527.71,
+        "prix_max": 22258.02,
+        "prix_moyen": 10278.98,
+        "ram_median": 16.0,
+        "ram_moyen": 22.14,
+        "storage_median": 1024.0,
+        "storage_moyen": 973.71
+      },
+      {
+        "cluster": "haut_de_gamme",
+        "count": 5,
+        "prix_min": 29942.36,
+        "prix_median": 37022.06,
+        "prix_max": 45362.04,
+        "prix_moyen": 37023.37,
+        "ram_median": 32.0,
+        "ram_moyen": 42.67,
+        "storage_median": 1024.0,
+        "storage_moyen": 1365.33
+      },
+      {
+        "cluster": "milieu_de_gamme",
+        "count": 10,
+        "prix_min": 6349.25,
+        "prix_median": 13895.39,
+        "prix_max": 18361.21,
+        "prix_moyen": 14052.78,
+        "ram_median": 24.0,
+        "ram_moyen": 30.86,
+        "storage_median": 2048.0,
+        "storage_moyen": 2048.0
+      }
+    ]
+  },
+  "dbscan": {
+    "eps": 0.3,
+    "min_samples": 5,
+    "n_clusters": 2,
+    "n_noise": 18,
+    "silhouette_score": 0.862
+  },
+  "pca": {
+    "explained_variance_pc1": 0.6694,
+    "explained_variance_pc2": 0.2233,
+    "total_explained": 0.8927,
+    "feature_loadings": {
+      "PC1": {
+        "price": 0.5079,
+        "ram_gb": 0.628,
+        "storage_gb": 0.5896
+      },
+      "PC2": {
+        "price": 0.8357,
+        "ram_gb": -0.1934,
+        "storage_gb": -0.514
+      }
+    }
+  }
+}
