@@ -1,0 +1,1439 @@
+{
+  "meta": {
+    "generated_at": "2026-05-14 02:02:47.736599",
+    "pipeline_phases": [
+      "Phase1_preprocessing",
+      "Phase2_stats",
+      "Phase3_clustering",
+      "Phase4_anomalies",
+      "Phase5_association_rules",
+      "Phase6_export"
+    ],
+    "query": "laptop"
+  },
+  "global_stats": {
+    "total_products": 50,
+    "platforms": [
+      "jumia",
+      "aliexpress"
+    ],
+    "n_brands": 9,
+    "price_min": 2602.93,
+    "price_max": 45362.04,
+    "price_mean": 13708.18,
+    "price_median": 12624.83,
+    "price_std": 9615.94,
+    "price_q1": 6603.82,
+    "price_q3": 17308.22,
+    "ram_coverage_pct": 76.0,
+    "storage_coverage_pct": 66.0
+  },
+  "by_platform": [
+    {
+      "platform": "aliexpress",
+      "count": 48,
+      "price_min": 2602.93,
+      "price_median": 13342.42,
+      "price_mean": 14073.14,
+      "price_max": 45362.04,
+      "n_anomalies": 3
+    },
+    {
+      "platform": "jumia",
+      "count": 2,
+      "price_min": 4099.0,
+      "price_median": 4949.0,
+      "price_mean": 4949.0,
+      "price_max": 5799.0,
+      "n_anomalies": 0
+    }
+  ],
+  "by_gamme": [
+    {
+      "gamme": "bas_de_gamme",
+      "count": 35,
+      "price_min": 2602.93,
+      "price_median": 8527.71,
+      "price_max": 22258.02,
+      "top_brands": {
+        "Other": 10,
+        "Xiaomi": 5,
+        "Acer": 5
+      },
+      "top_platforms": {
+        "aliexpress": 33,
+        "jumia": 2
+      }
+    },
+    {
+      "gamme": "haut_de_gamme",
+      "count": 5,
+      "price_min": 29942.36,
+      "price_median": 37022.06,
+      "price_max": 45362.04,
+      "top_brands": {
+        "MSI": 2,
+        "Other": 2,
+        "Lenovo": 1
+      },
+      "top_platforms": {
+        "aliexpress": 5
+      }
+    },
+    {
+      "gamme": "milieu_de_gamme",
+      "count": 10,
+      "price_min": 6349.25,
+      "price_median": 13895.39,
+      "price_max": 18361.21,
+      "top_brands": {
+        "Xiaomi": 3,
+        "Other": 2,
+        "Honor": 2
+      },
+      "top_platforms": {
+        "aliexpress": 10
+      }
+    }
+  ],
+  "top_brands": [
+    {
+      "brand": "Other",
+      "count": 14,
+      "price_median": 5319.07,
+      "price_min": 2602.93,
+      "price_max": 33571.45
+    },
+    {
+      "brand": "Xiaomi",
+      "count": 8,
+      "price_median": 13763.39,
+      "price_min": 6914.3,
+      "price_max": 18193.36
+    },
+    {
+      "brand": "Lenovo",
+      "count": 6,
+      "price_median": 15640.23,
+      "price_min": 4099.0,
+      "price_max": 45362.04
+    },
+    {
+      "brand": "Acer",
+      "count": 5,
+      "price_median": 15684.53,
+      "price_min": 7421.66,
+      "price_max": 19856.04
+    },
+    {
+      "brand": "Honor",
+      "count": 5,
+      "price_median": 17047.3,
+      "price_min": 13751.69,
+      "price_max": 19547.05
+    },
+    {
+      "brand": "Huawei",
+      "count": 5,
+      "price_median": 11952.24,
+      "price_min": 7949.6,
+      "price_max": 22258.02
+    },
+    {
+      "brand": "GPD",
+      "count": 3,
+      "price_median": 11856.57,
+      "price_min": 9521.78,
+      "price_max": 18361.21
+    },
+    {
+      "brand": "HP",
+      "count": 2,
+      "price_median": 4812.97,
+      "price_min": 3826.94,
+      "price_max": 5799.0
+    },
+    {
+      "brand": "MSI",
+      "count": 2,
+      "price_median": 38120.49,
+      "price_min": 37022.06,
+      "price_max": 39218.93
+    }
+  ],
+  "price_histogram": {
+    "counts": [
+      5,
+      4,
+      4,
+      4,
+      4,
+      1,
+      3,
+      4,
+      2,
+      5,
+      5,
+      2,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      0,
+      1
+    ],
+    "edges": [
+      2602.93,
+      4028.23,
+      5453.54,
+      6878.84,
+      8304.14,
+      9729.45,
+      11154.75,
+      12580.06,
+      14005.36,
+      15430.66,
+      16855.97,
+      18281.27,
+      19706.57,
+      21131.88,
+      22557.18,
+      23982.49,
+      25407.79,
+      26833.09,
+      28258.4,
+      29683.7,
+      31109.0,
+      32534.31,
+      33959.61,
+      35384.91,
+      36810.22,
+      38235.52,
+      39660.83,
+      41086.13,
+      42511.43,
+      43936.74,
+      45362.04
+    ]
+  },
+  "anomalies": [
+    {
+      "title": "Lenovo Gaming Laptop LEGION Y9000P 2025 Supreme Edition AI Yuanqi 16-inch 240Hz Ultra9-275HX 32GB+1TB RTX5080 Gaming Notebook PC",
+      "price": 45362.04,
+      "platform": "aliexpress",
+      "brand": "Lenovo",
+      "anomaly_type": "prix_suspect_haut",
+      "anomaly_score": 0.86
+    },
+    {
+      "title": "DR-AZ Gaming Laptop Intel Core i7-13620H 16'' 64GB 2TB computer 1920*1200 5000 mAh Win 11 1920x1200 Fingerprint backlit Laptop",
+      "price": 6349.25,
+      "platform": "aliexpress",
+      "brand": "Other",
+      "anomaly_type": "prix_suspect_bas",
+      "anomaly_score": 0.85
+    },
+    {
+      "title": "2026 GPD Pocket4 Latest AMD AI 9 HX 370/8840U 64GB 2TB NVMe 8.8 Inch 144Hz 2in1 Laptop Tablet Palm Size MiniPC",
+      "price": 18361.21,
+      "platform": "aliexpress",
+      "brand": "GPD",
+      "anomaly_type": "prix_suspect_haut",
+      "anomaly_score": 0.77
+    }
+  ],
+  "association_rules": [
+    {
+      "antecedents": [
+        "brand_honor",
+        "ram_32go+"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_2to+"
+      ],
+      "rule": "brand_honor, ram_32go+  →  bas_de_gamme, ssd_2to+",
+      "support": 0.06,
+      "confidence": 1.0,
+      "lift": 10.0
+    },
+    {
+      "antecedents": [
+        "ssd_2to+",
+        "normal"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "brand_honor"
+      ],
+      "rule": "normal, ssd_2to+  →  bas_de_gamme, brand_honor",
+      "support": 0.06,
+      "confidence": 0.5,
+      "lift": 8.3333
+    },
+    {
+      "antecedents": [
+        "brand_honor"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+",
+        "ssd_2to+"
+      ],
+      "rule": "brand_honor  →  bas_de_gamme, ram_32go+, ssd_2to+",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 7.5
+    },
+    {
+      "antecedents": [
+        "brand_honor"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_2to+"
+      ],
+      "rule": "brand_honor  →  bas_de_gamme, ssd_2to+",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 6.0
+    },
+    {
+      "antecedents": [
+        "brand_honor",
+        "platform_aliexpress"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_2to+"
+      ],
+      "rule": "brand_honor, platform_aliexpress  →  bas_de_gamme, ssd_2to+",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 6.0
+    },
+    {
+      "antecedents": [
+        "brand_honor"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "platform_aliexpress",
+        "ssd_2to+"
+      ],
+      "rule": "brand_honor  →  bas_de_gamme, platform_aliexpress, ssd_2to+",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 6.0
+    },
+    {
+      "antecedents": [
+        "brand_honor"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_2to+",
+        "normal"
+      ],
+      "rule": "brand_honor  →  bas_de_gamme, normal, ssd_2to+",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 6.0
+    },
+    {
+      "antecedents": [
+        "brand_honor",
+        "normal"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_2to+"
+      ],
+      "rule": "brand_honor, normal  →  bas_de_gamme, ssd_2to+",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 6.0
+    },
+    {
+      "antecedents": [
+        "brand_acer"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+",
+        "ssd_1to"
+      ],
+      "rule": "brand_acer  →  bas_de_gamme, ram_32go+, ssd_1to",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 4.2857
+    },
+    {
+      "antecedents": [
+        "brand_honor",
+        "ssd_2to+"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+"
+      ],
+      "rule": "brand_honor, ssd_2to+  →  bas_de_gamme, ram_32go+",
+      "support": 0.06,
+      "confidence": 1.0,
+      "lift": 4.1667
+    },
+    {
+      "antecedents": [
+        "platform_aliexpress",
+        "brand_acer"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_1to"
+      ],
+      "rule": "brand_acer, platform_aliexpress  →  bas_de_gamme, ssd_1to",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 3.6364
+    },
+    {
+      "antecedents": [
+        "brand_acer"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_1to",
+        "normal"
+      ],
+      "rule": "brand_acer  →  bas_de_gamme, normal, ssd_1to",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 3.6364
+    },
+    {
+      "antecedents": [
+        "brand_acer"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_1to"
+      ],
+      "rule": "brand_acer  →  bas_de_gamme, ssd_1to",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 3.6364
+    },
+    {
+      "antecedents": [
+        "brand_acer"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_1to",
+        "platform_aliexpress"
+      ],
+      "rule": "brand_acer  →  bas_de_gamme, platform_aliexpress, ssd_1to",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 3.6364
+    },
+    {
+      "antecedents": [
+        "brand_acer",
+        "normal"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_1to"
+      ],
+      "rule": "brand_acer, normal  →  bas_de_gamme, ssd_1to",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 3.6364
+    },
+    {
+      "antecedents": [
+        "brand_huawei",
+        "ssd_512go"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_16go"
+      ],
+      "rule": "brand_huawei, ssd_512go  →  bas_de_gamme, ram_16go",
+      "support": 0.06,
+      "confidence": 1.0,
+      "lift": 3.5714
+    },
+    {
+      "antecedents": [
+        "ram_32go+",
+        "brand_acer"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_1to"
+      ],
+      "rule": "brand_acer, ram_32go+  →  bas_de_gamme, ssd_1to",
+      "support": 0.06,
+      "confidence": 0.75,
+      "lift": 3.4091
+    },
+    {
+      "antecedents": [
+        "ram_16go",
+        "brand_huawei"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_512go"
+      ],
+      "rule": "brand_huawei, ram_16go  →  bas_de_gamme, ssd_512go",
+      "support": 0.06,
+      "confidence": 0.75,
+      "lift": 3.4091
+    },
+    {
+      "antecedents": [
+        "brand_huawei"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "platform_aliexpress",
+        "ssd_512go"
+      ],
+      "rule": "brand_huawei  →  bas_de_gamme, platform_aliexpress, ssd_512go",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 3.3333
+    },
+    {
+      "antecedents": [
+        "brand_huawei"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_16go",
+        "ssd_512go"
+      ],
+      "rule": "brand_huawei  →  bas_de_gamme, ram_16go, ssd_512go",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 3.3333
+    }
+  ],
+  "products": [
+    {
+      "title": "Hp Laptop 15-FC0075k - Ecran FHD 15,6\"- Ryzen5-7520u - 8Gb LPDDR 5 + 512 Go SSD - Wifi 6 - Windows 11h6 - Noir Ébène - Neuf - Garantie 1an",
+      "brand": "HP",
+      "platform": "jumia",
+      "price": 5799.0,
+      "price_usd": 579.9,
+      "ram_gb": 8.0,
+      "storage_gb": 512.0,
+      "ram_cat": "8Go",
+      "storage_cat": "512Go",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.jumia.ma/hp-laptop-15-fc0075k-ecran-fhd-156-ryzen5-7520u-8gb-lpddr-5-512-go-ssd-wifi-6-windows-11h6-noir-ebene-neuf-garantie-1an-66563294.html",
+      "pca_x": -1.89,
+      "pca_y": 0.07
+    },
+    {
+      "title": "Lenovo ThinkPad X13 Yoga Gen 1 Convertible Laptop Core™ i5-10210U / 16GO -512GO SSD",
+      "brand": "Lenovo",
+      "platform": "jumia",
+      "price": 4099.0,
+      "price_usd": 409.9,
+      "ram_gb": 16.0,
+      "storage_gb": 512.0,
+      "ram_cat": "16Go",
+      "storage_cat": "512Go",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.jumia.ma/lenovo-thinkpad-x13-yoga-gen-1-convertible-laptop-coretm-i5-10210u-16go-512go-ssd-66138811.html",
+      "pca_x": -1.57,
+      "pca_y": -0.23
+    },
+    {
+      "title": "2025 MSI Stealth 18 HX AI Gaming Laptop 18 Inch 4K 120Hz MiniLED Screen Netbook Intel Ultra 9-275HX 64GB 2TB RTX5090 Notebook PC",
+      "brand": "MSI",
+      "platform": "aliexpress",
+      "price": 39218.93,
+      "price_usd": 3921.89,
+      "ram_gb": 64.0,
+      "storage_gb": 2048.0,
+      "ram_cat": ">=32Go",
+      "storage_cat": ">1To",
+      "gamme": "haut_de_gamme",
+      "cluster": "haut_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005011627628108.html",
+      "pca_x": 4.54,
+      "pca_y": 0.68
+    },
+    {
+      "title": "GPD Micro PC 2 Beastly Handheld Mini Laptop: 7 Blazing Touch Screen, 16GB RAM, 512GB SSD, N300 CPU, Windows 11 Pocket-Sized",
+      "brand": "GPD",
+      "platform": "aliexpress",
+      "price": 9521.78,
+      "price_usd": 952.18,
+      "ram_gb": 16.0,
+      "storage_gb": 512.0,
+      "ram_cat": "16Go",
+      "storage_cat": "512Go",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005012175016132.html",
+      "pca_x": -1.29,
+      "pca_y": 0.26
+    },
+    {
+      "title": "FIREBAT 16Pro Gaming Laptop 16Inch AMD Ryzen 7 H 255 NVIDIA GeForce RTX 5060 for Gamer Laptops",
+      "brand": "Other",
+      "platform": "aliexpress",
+      "price": 13005.25,
+      "price_usd": 1300.53,
+      "ram_gb": NaN,
+      "storage_gb": NaN,
+      "ram_cat": "inconnu",
+      "storage_cat": "inconnu",
+      "gamme": "milieu_de_gamme",
+      "cluster": "milieu_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005010241168287.html",
+      "pca_x": -0.28,
+      "pca_y": 0.04
+    },
+    {
+      "title": "GPD Pocket 3 Mini Laptop 8Inch Intel Gold 7505 Notebook 16GB 512GB SSD Modular Full-featured Handheld Windows11 Computer",
+      "brand": "GPD",
+      "platform": "aliexpress",
+      "price": 11856.57,
+      "price_usd": 1185.66,
+      "ram_gb": 16.0,
+      "storage_gb": 512.0,
+      "ram_cat": "16Go",
+      "storage_cat": "512Go",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005012166233832.html",
+      "pca_x": -1.18,
+      "pca_y": 0.48
+    },
+    {
+      "title": "2026 GPD Pocket4 Latest AMD AI 9 HX 370/8840U 64GB 2TB NVMe 8.8 Inch 144Hz 2in1 Laptop Tablet Palm Size MiniPC",
+      "brand": "GPD",
+      "platform": "aliexpress",
+      "price": 18361.21,
+      "price_usd": 1836.12,
+      "ram_gb": 64.0,
+      "storage_gb": 2048.0,
+      "ram_cat": ">=32Go",
+      "storage_cat": ">1To",
+      "gamme": "milieu_de_gamme",
+      "cluster": "milieu_de_gamme",
+      "is_anomaly": 1,
+      "anomaly_type": "prix_suspect_haut",
+      "url": "https://www.aliexpress.com/item/1005012166385261.html",
+      "pca_x": 3.48,
+      "pca_y": -1.22
+    },
+    {
+      "title": "2026 Xiaomi Laptop REDMI Book 16 2026 Intel Core Ultra 5 125H ARC Graphics 16G/32G 1TB 16\" 2.5K 120Hz PC",
+      "brand": "Xiaomi",
+      "platform": "aliexpress",
+      "price": 13847.19,
+      "price_usd": 1384.72,
+      "ram_gb": 16.0,
+      "storage_gb": 1024.0,
+      "ram_cat": "16Go",
+      "storage_cat": "1To",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005012206573159.html",
+      "pca_x": -0.44,
+      "pca_y": 0.19
+    },
+    {
+      "title": "2026 New 15.6\" Ultra Slim Laptop Intel i7 11th Gen NVIDIA MX450 Gaming Notebook for 3D Modeling Design Student Business",
+      "brand": "Other",
+      "platform": "aliexpress",
+      "price": 7253.79,
+      "price_usd": 725.38,
+      "ram_gb": NaN,
+      "storage_gb": NaN,
+      "ram_cat": "inconnu",
+      "storage_cat": "inconnu",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005012108787602.html",
+      "pca_x": -0.57,
+      "pca_y": -0.48
+    },
+    {
+      "title": "11.6-inch laptop, 4GB of RAM, 64GB of internal storage, supports TF memory cards up to 512GB, supports SSD，Bluetooth,WIFI",
+      "brand": "Other",
+      "platform": "aliexpress",
+      "price": 2768.83,
+      "price_usd": 276.88,
+      "ram_gb": 4.0,
+      "storage_gb": 512.0,
+      "ram_cat": "<=4Go",
+      "storage_cat": "512Go",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005010383001803.html",
+      "pca_x": -2.24,
+      "pca_y": -0.13
+    },
+    {
+      "title": "NEW Xiaomi Notebook REDMI Book 14 2026 Laptop Ultra5-125H/16G/512 Starlight Silver Intel Arc Graphics 14 \"2.8K Screen PC MI",
+      "brand": "Xiaomi",
+      "platform": "aliexpress",
+      "price": 12244.42,
+      "price_usd": 1224.44,
+      "ram_gb": 16.0,
+      "storage_gb": NaN,
+      "ram_cat": "16Go",
+      "storage_cat": "inconnu",
+      "gamme": "milieu_de_gamme",
+      "cluster": "milieu_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005012201275326.html",
+      "pca_x": -0.52,
+      "pca_y": 0.05
+    },
+    {
+      "title": "OneXPlayer X1 Air 3 In 1 Handheld Gaming Laptop Intel Ultra 7 258 Gen Portable Pocket PC RGB High Refresh Screen Game Notebook",
+      "brand": "Other",
+      "platform": "aliexpress",
+      "price": 33571.45,
+      "price_usd": 3357.14,
+      "ram_gb": NaN,
+      "storage_gb": NaN,
+      "ram_cat": "inconnu",
+      "storage_cat": "inconnu",
+      "gamme": "haut_de_gamme",
+      "cluster": "haut_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005012143012308.html",
+      "pca_x": 0.76,
+      "pca_y": 1.91
+    },
+    {
+      "title": "360° Rotating 14.0'' IPS Touch Screen 32G 128G-1T N95 Windows 11 Notebook 4 In 1 Business Office Slim LAPTOP Touch ID",
+      "brand": "Other",
+      "platform": "aliexpress",
+      "price": 4515.91,
+      "price_usd": 451.59,
+      "ram_gb": 32.0,
+      "storage_gb": 128.0,
+      "ram_cat": ">=32Go",
+      "storage_cat": "<=256Go",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005006813279365.html",
+      "pca_x": -1.21,
+      "pca_y": -0.14
+    },
+    {
+      "title": "Lenovo Gaming Laptop LEGION Y9000P 2025 Supreme Edition AI Yuanqi 16-inch 240Hz Ultra9-275HX 32GB+1TB RTX5080 Gaming Notebook PC",
+      "brand": "Lenovo",
+      "platform": "aliexpress",
+      "price": 45362.04,
+      "price_usd": 4536.2,
+      "ram_gb": 32.0,
+      "storage_gb": 1024.0,
+      "ram_cat": ">=32Go",
+      "storage_cat": "1To",
+      "gamme": "haut_de_gamme",
+      "cluster": "haut_de_gamme",
+      "is_anomaly": 1,
+      "anomaly_type": "prix_suspect_haut",
+      "url": "https://www.aliexpress.com/item/1005009437218184.html",
+      "pca_x": 1.96,
+      "pca_y": 2.76
+    },
+    {
+      "title": "Lenovo Xiaoxin Pro 16 GT 2026 Ai Laptop 16\" 2.8K OLED Ryzen AI 9 H 465 32GB 1TB Thin & Light Notebook",
+      "brand": "Lenovo",
+      "platform": "aliexpress",
+      "price": 15595.42,
+      "price_usd": 1559.54,
+      "ram_gb": 32.0,
+      "storage_gb": 1024.0,
+      "ram_cat": ">=32Go",
+      "storage_cat": "1To",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005012189957334.html",
+      "pca_x": 0.46,
+      "pca_y": 0.06
+    },
+    {
+      "title": "GLF-S2 Dual Screen Laptop Intel i3 1215U 10.9+10.95 Inch Touchscreen mini PC WIFI 6 180° flip Win11 Hide touchpad Office Laptops",
+      "brand": "HP",
+      "platform": "aliexpress",
+      "price": 3826.94,
+      "price_usd": 382.69,
+      "ram_gb": NaN,
+      "storage_gb": NaN,
+      "ram_cat": "inconnu",
+      "storage_cat": "inconnu",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005011607515829.html",
+      "pca_x": -0.75,
+      "pca_y": -0.79
+    },
+    {
+      "title": "AMD Ryzen R5 R7 Slim Gaming Laptop 15.6 Inch IPS Laptops Portable notbook computer pc Windows11 Fingerprint cheap price deal",
+      "brand": "Other",
+      "platform": "aliexpress",
+      "price": 6500.33,
+      "price_usd": 650.03,
+      "ram_gb": NaN,
+      "storage_gb": NaN,
+      "ram_cat": "inconnu",
+      "storage_cat": "inconnu",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005009402851505.html",
+      "pca_x": -0.61,
+      "pca_y": -0.55
+    },
+    {
+      "title": "Mini Laptop IPS Touch Screen Intel N95 CPU 16GB+1TB Netbook PC",
+      "brand": "Other",
+      "platform": "aliexpress",
+      "price": 3534.36,
+      "price_usd": 353.44,
+      "ram_gb": 16.0,
+      "storage_gb": 1024.0,
+      "ram_cat": "16Go",
+      "storage_cat": "1To",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005009102601643.html",
+      "pca_x": -0.97,
+      "pca_y": -0.74
+    },
+    {
+      "title": "Lenovo LEGION R7000P 2025 R9 8945 HX R9 8940 HX RTX 5070 5060 8G 16inch 2.5K 240Hz Gaming Laptop",
+      "brand": "Lenovo",
+      "platform": "aliexpress",
+      "price": 18215.98,
+      "price_usd": 1821.6,
+      "ram_gb": 8.0,
+      "storage_gb": NaN,
+      "ram_cat": "8Go",
+      "storage_cat": "inconnu",
+      "gamme": "milieu_de_gamme",
+      "cluster": "milieu_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005012138634694.html",
+      "pca_x": -0.63,
+      "pca_y": 0.74
+    },
+    {
+      "title": "DR-AZ Gaming Laptop Intel Core i7-13620H 16'' 64GB 2TB computer 1920*1200 5000 mAh Win 11 1920x1200 Fingerprint backlit Laptop",
+      "brand": "Other",
+      "platform": "aliexpress",
+      "price": 6349.25,
+      "price_usd": 634.92,
+      "ram_gb": 64.0,
+      "storage_gb": 2048.0,
+      "ram_cat": ">=32Go",
+      "storage_cat": ">1To",
+      "gamme": "milieu_de_gamme",
+      "cluster": "milieu_de_gamme",
+      "is_anomaly": 1,
+      "anomaly_type": "prix_suspect_bas",
+      "url": "https://www.aliexpress.com/item/1005009843539434.html",
+      "pca_x": 2.87,
+      "pca_y": -2.31
+    },
+    {
+      "title": "Honor MagicBook Pro 16 2026 16-inch 3K 165Hz 3rd Gen Intel® Core™ Ultra U5-338H/Ultra X7-358H/Ultra X9-388H 32GB 1TB/2TB Laptop",
+      "brand": "Honor",
+      "platform": "aliexpress",
+      "price": 17395.2,
+      "price_usd": 1739.52,
+      "ram_gb": 32.0,
+      "storage_gb": 2048.0,
+      "ram_cat": ">=32Go",
+      "storage_cat": ">1To",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005012232796911.html",
+      "pca_x": 1.81,
+      "pca_y": -0.71
+    },
+    {
+      "title": "2026 New Honor X14 Plus Laptop 14-inch Ultra5 325 16G 1T HD Eye Protection Screen Thin and Light Laptop Starry Gray",
+      "brand": "Honor",
+      "platform": "aliexpress",
+      "price": 16749.5,
+      "price_usd": 1674.95,
+      "ram_gb": 16.0,
+      "storage_gb": NaN,
+      "ram_cat": "16Go",
+      "storage_cat": "inconnu",
+      "gamme": "milieu_de_gamme",
+      "cluster": "milieu_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005012241975900.html",
+      "pca_x": -0.3,
+      "pca_y": 0.46
+    },
+    {
+      "title": "Green 2025 New 11\" Touch Screen Intel Celeron N100 4 Core 4 Thread 3.4GHz Laptop PC Cheap Win 11 Laptops Computer For Business",
+      "brand": "Other",
+      "platform": "aliexpress",
+      "price": 3492.11,
+      "price_usd": 349.21,
+      "ram_gb": NaN,
+      "storage_gb": NaN,
+      "ram_cat": "inconnu",
+      "storage_cat": "inconnu",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005008863812923.html",
+      "pca_x": -0.76,
+      "pca_y": -0.82
+    },
+    {
+      "title": "2025 New Acer Nitro 7 Gaming Laptop 16 Inch 2.5K 240Hz Screen Notebook Intel i7-14650HX 32GB 1TB RTX5060 Netbook Computer PC",
+      "brand": "Acer",
+      "platform": "aliexpress",
+      "price": 15684.53,
+      "price_usd": 1568.45,
+      "ram_gb": 32.0,
+      "storage_gb": 1024.0,
+      "ram_cat": ">=32Go",
+      "storage_cat": "1To",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005011656940093.html",
+      "pca_x": 0.46,
+      "pca_y": 0.06
+    },
+    {
+      "title": "2026 NEW Xiaomi Book Pro 14 Laptop U5-325/U-338H/U7-358H 32GB 1TB Notebook PC",
+      "brand": "Xiaomi",
+      "platform": "aliexpress",
+      "price": 18193.36,
+      "price_usd": 1819.34,
+      "ram_gb": 32.0,
+      "storage_gb": 1024.0,
+      "ram_cat": ">=32Go",
+      "storage_cat": "1To",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005011906575342.html",
+      "pca_x": 0.59,
+      "pca_y": 0.29
+    },
+    {
+      "title": "2025 Acer ordinary Go Air Laptop 14 Inch 2.2K 60Hz IPS Screen Netbook i5-13420H 32GB 1TB Notebook With Intel UHD Graphics",
+      "brand": "Acer",
+      "platform": "aliexpress",
+      "price": 8391.73,
+      "price_usd": 839.17,
+      "ram_gb": 32.0,
+      "storage_gb": 1024.0,
+      "ram_cat": ">=32Go",
+      "storage_cat": "1To",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005012240800572.html",
+      "pca_x": 0.09,
+      "pca_y": -0.6
+    },
+    {
+      "title": "Lenovo ThinkBook 14+ 2026 R7 H 255/AI 7 H 450 32G 1TB 14.5'' 3K 120Hz",
+      "brand": "Lenovo",
+      "platform": "aliexpress",
+      "price": 15685.04,
+      "price_usd": 1568.5,
+      "ram_gb": 32.0,
+      "storage_gb": 1024.0,
+      "ram_cat": ">=32Go",
+      "storage_cat": "1To",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005010256385286.html",
+      "pca_x": 0.46,
+      "pca_y": 0.06
+    },
+    {
+      "title": "10.95-inch 2-in-1 Laptop, 12th Gen Intel Core i5-1250P, Touch Screen, Type-C Charging Port, Windows 11 – Slim & Lightweight",
+      "brand": "Other",
+      "platform": "aliexpress",
+      "price": 5496.09,
+      "price_usd": 549.61,
+      "ram_gb": NaN,
+      "storage_gb": NaN,
+      "ram_cat": "inconnu",
+      "storage_cat": "inconnu",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005009511932959.html",
+      "pca_x": -0.66,
+      "pca_y": -0.64
+    },
+    {
+      "title": "2024 Xiaomi Redmi Book Pro 14 Laptop 14 Inch 2.8K 120Hz Ultra Retina Screen Notebook Ultra 5-125H 16GB 512GB Intel ARC Graphics",
+      "brand": "Xiaomi",
+      "platform": "aliexpress",
+      "price": 8527.71,
+      "price_usd": 852.77,
+      "ram_gb": 16.0,
+      "storage_gb": 512.0,
+      "ram_cat": "16Go",
+      "storage_cat": "512Go",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005011681460679.html",
+      "pca_x": -1.34,
+      "pca_y": 0.17
+    },
+    {
+      "title": "2026 MSI Raider 16 Max HX Gaming Laptop 16 Inch 2.5K 240Hz IPS Screen Netbook Ultra 9-285HX 32GB 1TB RTX5070Ti Notebook Computer",
+      "brand": "MSI",
+      "platform": "aliexpress",
+      "price": 37022.06,
+      "price_usd": 3702.21,
+      "ram_gb": 32.0,
+      "storage_gb": 1024.0,
+      "ram_cat": ">=32Go",
+      "storage_cat": "1To",
+      "gamme": "haut_de_gamme",
+      "cluster": "haut_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005012092805472.html",
+      "pca_x": 1.54,
+      "pca_y": 2.0
+    },
+    {
+      "title": "2024 HUAWEI MateBook X Pro Laptop Inter Core Ultra9 185H/Ultra7 155H 32/16GB 2/1TB Netbook 14.2inch 3.1k Touchscreen 120Hz OLED",
+      "brand": "Huawei",
+      "platform": "aliexpress",
+      "price": 22258.02,
+      "price_usd": 2225.8,
+      "ram_gb": 16.0,
+      "storage_gb": 1024.0,
+      "ram_cat": "16Go",
+      "storage_cat": "1To",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005006843407588.html",
+      "pca_x": -0.02,
+      "pca_y": 0.96
+    },
+    {
+      "title": "2023 HUAWEI MateBook 14 Laptop 14-inch 2K Touchscreen i5-1340P/i7-1360P 16GB/32GB 512GB/1T Computer Netbook Iris Xe Graphics SSD",
+      "brand": "Huawei",
+      "platform": "aliexpress",
+      "price": 9822.2,
+      "price_usd": 982.22,
+      "ram_gb": 16.0,
+      "storage_gb": 512.0,
+      "ram_cat": "16Go",
+      "storage_cat": "512Go",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005011906726641.html",
+      "pca_x": -1.28,
+      "pca_y": 0.29
+    },
+    {
+      "title": "Lenovo Xiaoxin 13 Air 2025 Laptop AMD R7 7735HS Integrated Graphics 16GB 512GB 13.3inch 100% sRGB Screen Thin and Light Laptop",
+      "brand": "Lenovo",
+      "platform": "aliexpress",
+      "price": 9091.9,
+      "price_usd": 909.19,
+      "ram_gb": 16.0,
+      "storage_gb": 512.0,
+      "ram_cat": "16Go",
+      "storage_cat": "512Go",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005011616701193.html",
+      "pca_x": -1.32,
+      "pca_y": 0.23
+    },
+    {
+      "title": "2024 Acer ordinary Go Princess Laptop 14 Inch 2.8K 120Hz IPS Screen Netbook i5-13420H 16GB 1TB Notebook With Intel lris Xe",
+      "brand": "Acer",
+      "platform": "aliexpress",
+      "price": 7421.66,
+      "price_usd": 742.17,
+      "ram_gb": 16.0,
+      "storage_gb": 1024.0,
+      "ram_cat": "16Go",
+      "storage_cat": "1To",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005011599928079.html",
+      "pca_x": -0.77,
+      "pca_y": -0.39
+    },
+    {
+      "title": "2025 Acer Predator Helios 9 Neo S Gaming Laptop 16 Inch 2.5K OLED 240Hz Screen Notebook Ultra 9-275HX 32GB 2TB RTX5070 Netbook",
+      "brand": "Acer",
+      "platform": "aliexpress",
+      "price": 19856.04,
+      "price_usd": 1985.6,
+      "ram_gb": 32.0,
+      "storage_gb": 2048.0,
+      "ram_cat": ">=32Go",
+      "storage_cat": ">1To",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005011666988455.html",
+      "pca_x": 1.94,
+      "pca_y": -0.49
+    },
+    {
+      "title": "2025 Xiaomi REDMI Book 14 Laptop 14 Inch FHD 60Hz Screen Notebook i5-13420H 16GB 512GB Netbook Computer With Intel UHD Graphics",
+      "brand": "Xiaomi",
+      "platform": "aliexpress",
+      "price": 6914.3,
+      "price_usd": 691.43,
+      "ram_gb": 16.0,
+      "storage_gb": 512.0,
+      "ram_cat": "16Go",
+      "storage_cat": "512Go",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005011682286826.html",
+      "pca_x": -1.43,
+      "pca_y": 0.03
+    },
+    {
+      "title": "2025 Acer Nitro 7 Gaming Laptop 16 Inch 2.5K 240Hz Screen Notebook Intel Core Ultra 9-275HX 32GB 1TB RTX5060 Netbook Computer PC",
+      "brand": "Acer",
+      "platform": "aliexpress",
+      "price": 17757.6,
+      "price_usd": 1775.76,
+      "ram_gb": 32.0,
+      "storage_gb": 1024.0,
+      "ram_cat": ">=32Go",
+      "storage_cat": "1To",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005012246261097.html",
+      "pca_x": 0.57,
+      "pca_y": 0.25
+    },
+    {
+      "title": "12th Generation Mini Laptop Intel N95 Quad-Core 8-inch Touch Screen Type-C Charging Port for Office and Entertainment Portable",
+      "brand": "Other",
+      "platform": "aliexpress",
+      "price": 4322.25,
+      "price_usd": 432.22,
+      "ram_gb": NaN,
+      "storage_gb": NaN,
+      "ram_cat": "inconnu",
+      "storage_cat": "inconnu",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005008627449209.html",
+      "pca_x": -0.72,
+      "pca_y": -0.75
+    },
+    {
+      "title": "Xiaomi Laptop REDMI Book Pro 16 2026 Ultra5-338H/UltraX7-358H/32GB+1TB 16inch 3.2K 165Hz Screen",
+      "brand": "Xiaomi",
+      "platform": "aliexpress",
+      "price": 16094.21,
+      "price_usd": 1609.42,
+      "ram_gb": 32.0,
+      "storage_gb": 1024.0,
+      "ram_cat": ">=32Go",
+      "storage_cat": "1To",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005012170698498.html",
+      "pca_x": 0.48,
+      "pca_y": 0.1
+    },
+    {
+      "title": "New AMD Ryzen AI Max+395 One XPlayer Super X 14-Inch 2.8K AMOLED 60/120HZ display Gaming tablet-laptop hybrid Fingerprint unlock",
+      "brand": "Other",
+      "platform": "aliexpress",
+      "price": 29942.36,
+      "price_usd": 2994.24,
+      "ram_gb": NaN,
+      "storage_gb": NaN,
+      "ram_cat": "inconnu",
+      "storage_cat": "inconnu",
+      "gamme": "haut_de_gamme",
+      "cluster": "haut_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005011574754184.html",
+      "pca_x": 0.57,
+      "pca_y": 1.58
+    },
+    {
+      "title": "2026 NAIWO 14.1\" Ultra Slim Laptop Intel 4405U IPS Office Computer 16GB DDR3 1TB 2TB SSD Study Laptop M.2 Windows 11 Notebook PC",
+      "brand": "Other",
+      "platform": "aliexpress",
+      "price": 2602.93,
+      "price_usd": 260.29,
+      "ram_gb": 16.0,
+      "storage_gb": 2048.0,
+      "ram_cat": "16Go",
+      "storage_cat": ">1To",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005011990071645.html",
+      "pca_x": 0.25,
+      "pca_y": -1.76
+    },
+    {
+      "title": "CRELANDER Mini Laptops 14 Inch 2240*1440 Double Touch Screen Intel Processor Foldable Tablet PC Windows11 Dual Screen Laptop",
+      "brand": "Other",
+      "platform": "aliexpress",
+      "price": 5142.04,
+      "price_usd": 514.2,
+      "ram_gb": NaN,
+      "storage_gb": NaN,
+      "ram_cat": "inconnu",
+      "storage_cat": "inconnu",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005007766607257.html",
+      "pca_x": -0.68,
+      "pca_y": -0.67
+    },
+    {
+      "title": "2026 Xiaomi REDMI Book Pro 16 Laptop 16inch 3.2K 165Hz Screen Netbook Ultra 5/Ultra X7 24G/32G+1T Notebook With Intel Graphics",
+      "brand": "Xiaomi",
+      "platform": "aliexpress",
+      "price": 14039.09,
+      "price_usd": 1403.91,
+      "ram_gb": 24.0,
+      "storage_gb": NaN,
+      "ram_cat": ">=32Go",
+      "storage_cat": "inconnu",
+      "gamme": "milieu_de_gamme",
+      "cluster": "milieu_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005012249649136.html",
+      "pca_x": -0.03,
+      "pca_y": 0.06
+    },
+    {
+      "title": "2024 HUAWEI MateBook GT 14 Laptop Ultra 9-185H/Ultra 7-155/Ultra 5-125 Notebook 14.2-inch 2.8K OLED Touchscreen 140W Hi GT Cube",
+      "brand": "Huawei",
+      "platform": "aliexpress",
+      "price": 14131.86,
+      "price_usd": 1413.19,
+      "ram_gb": NaN,
+      "storage_gb": NaN,
+      "ram_cat": "inconnu",
+      "storage_cat": "inconnu",
+      "gamme": "milieu_de_gamme",
+      "cluster": "milieu_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005010740081461.html",
+      "pca_x": -0.23,
+      "pca_y": 0.14
+    },
+    {
+      "title": "2022 HUAWEI MateBook D 14 Laptop 14 Inch Screen Notebook i5-1240P/i7-1260P 16GB 512GB Netbook With Iris Xe Graphics Card",
+      "brand": "Huawei",
+      "platform": "aliexpress",
+      "price": 7949.6,
+      "price_usd": 794.96,
+      "ram_gb": 16.0,
+      "storage_gb": 512.0,
+      "ram_cat": "16Go",
+      "storage_cat": "512Go",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005009086188054.html",
+      "pca_x": -1.37,
+      "pca_y": 0.12
+    },
+    {
+      "title": "Honor Laptop MagicBook Art 14 2025 14.6-inch OLED touchscreen 2nd Gen Core Ultra5/Ultra7 32GB 1TB/2TB 120Hz 3.1K Laptop",
+      "brand": "Honor",
+      "platform": "aliexpress",
+      "price": 19547.05,
+      "price_usd": 1954.7,
+      "ram_gb": 32.0,
+      "storage_gb": 2048.0,
+      "ram_cat": ">=32Go",
+      "storage_cat": ">1To",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005010131696284.html",
+      "pca_x": 1.92,
+      "pca_y": -0.52
+    },
+    {
+      "title": "Honor MagicBook Pro 14 2026 14.6-inch 3.1K OLED Touchscreen Ultra U5-338H/Ultra X7-358H/Ultra X9-388H 32GB 1TB/2TB Laptop",
+      "brand": "Honor",
+      "platform": "aliexpress",
+      "price": 17047.3,
+      "price_usd": 1704.73,
+      "ram_gb": 32.0,
+      "storage_gb": 2048.0,
+      "ram_cat": ">=32Go",
+      "storage_cat": ">1To",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005012240752681.html",
+      "pca_x": 1.79,
+      "pca_y": -0.74
+    },
+    {
+      "title": "2023 HUAWEI MateBook 13s i5-12500H/i7-12700H 16GB 512GB 13.4-inch 2.5K 90Hz Touchscreens SSD Intel Iris Xe Graphics WiFi6",
+      "brand": "Huawei",
+      "platform": "aliexpress",
+      "price": 11952.24,
+      "price_usd": 1195.22,
+      "ram_gb": 16.0,
+      "storage_gb": 512.0,
+      "ram_cat": "16Go",
+      "storage_cat": "512Go",
+      "gamme": "bas_de_gamme",
+      "cluster": "bas_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005011773260307.html",
+      "pca_x": -1.17,
+      "pca_y": 0.49
+    },
+    {
+      "title": "2026 Xiaomi REDMI Book Pro 14 Laptop 14inch 2.8K 120Hz Screen Netbook Ultra 5/Ultra X7 24G/32G+1T Notebook With Intel Graphics",
+      "brand": "Xiaomi",
+      "platform": "aliexpress",
+      "price": 13679.58,
+      "price_usd": 1367.96,
+      "ram_gb": 24.0,
+      "storage_gb": NaN,
+      "ram_cat": ">=32Go",
+      "storage_cat": "inconnu",
+      "gamme": "milieu_de_gamme",
+      "cluster": "milieu_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005012252714998.html",
+      "pca_x": -0.05,
+      "pca_y": 0.03
+    },
+    {
+      "title": "New HONOR 1kg Laptop MagicBook Art 14 2024 14.6\"Inch 3.1K 120Hz OLED Touchscreen Intel Ultra 5 7 Computer PC Notebook Ultrabook",
+      "brand": "Honor",
+      "platform": "aliexpress",
+      "price": 13751.69,
+      "price_usd": 1375.17,
+      "ram_gb": NaN,
+      "storage_gb": NaN,
+      "ram_cat": "inconnu",
+      "storage_cat": "inconnu",
+      "gamme": "milieu_de_gamme",
+      "cluster": "milieu_de_gamme",
+      "is_anomaly": 0,
+      "anomaly_type": "normal",
+      "url": "https://www.aliexpress.com/item/1005008405353863.html",
+      "pca_x": -0.25,
+      "pca_y": 0.11
+    }
+  ]
+}
