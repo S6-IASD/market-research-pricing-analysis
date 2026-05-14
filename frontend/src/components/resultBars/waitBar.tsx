@@ -7,7 +7,7 @@ export default function WaitBar() {
       <h2 className="text-xl font-semibold text-slate-900 mb-2">Commence la recherche sur différentes plateformes</h2>
       <p className="text-slate-500">
         Entrer le nom du produit pour comparer les prix de differentes
-        platfromes
+        plateformes
       </p>
     </article>
 

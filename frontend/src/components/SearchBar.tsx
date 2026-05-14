@@ -8,7 +8,7 @@ interface searchBarProps {
   isloading: boolean;
 }
 
-const PLATEFORMS = [
+const PLATFORMS = [
   { id: 'jumia', label: 'Jumia' },
   { id: 'ebay', label: 'eBay' },
   { id: 'aliexpress', label: 'AliExpress' },
@@ -41,7 +41,7 @@ export default function SearchBar({onSearch, isloading}: searchBarProps) {
   }
 
   return (
-    <section className=" lg:cols-span-1 ">
+    <section className=" lg:col-span-1 ">
       <form
         onSubmit={handleSubmit}
         className="bg-[#a8dadc] border-[#2f3e46] p-3 lg:p-6 shadow-sm rounded-xl border-2 lg:space-y-8 space-y-3 "
@@ -51,7 +51,7 @@ export default function SearchBar({onSearch, isloading}: searchBarProps) {
             Rechercher un produit:
           </label>
           <input
-            className="border border-slate-700 px-3 py-2 rounded-lg w-full focus:ring-2 focus:border-[#1d3557] focus:ring-[#1d3557]0 outline-none bg-white text-slate-800 "
+            className="border border-slate-700 px-3 py-2 rounded-lg w-full focus:ring-2 focus:border-[#1d3557] focus:ring-[#1d3557] outline-none bg-white text-slate-800 "
             type="search"
             id="search"
             onChange={(e) => setQuery(e.target.value)}
@@ -65,7 +65,7 @@ export default function SearchBar({onSearch, isloading}: searchBarProps) {
             Categorie(optionelle)
           </label>
           <input
-            className="border border-slate-700  rounded-lg px-4  py-2 w-full outline-none focus:ring-2 focus:ring[#1d3557] focus:border-[#1d3557] bg-white"
+            className="border border-slate-700  rounded-lg px-4  py-2 w-full outline-none focus:ring-2 focus:ring-[#1d3557] focus:border-[#1d3557] bg-white"
             type="text"
             id="Categorie"
             onChange={(e)=>setCat(e.currentTarget.value)}
@@ -78,7 +78,7 @@ export default function SearchBar({onSearch, isloading}: searchBarProps) {
           <span className="block text-sm font-medium text-slate-700 mb-1">Platforms</span>
 
           <div className="flex flex-wrap justify-around" >
-            {PLATEFORMS.map(platform=>(
+            {PLATFORMS.map(platform=>(
               <label
                 key={platform.id}
                 className={`flex gap-3 border-2 lg:gap-1  py-2 px-3 rounded-xl
