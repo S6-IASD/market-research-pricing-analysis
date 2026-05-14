@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PageContainer } from '@ant-design/pro-components';
-import { Row, Col, Card, Statistic, Button, Progress, List, Alert, Spin, Result, Badge, Typography, Tag, theme } from 'antd';
+import { Row, Col, Card, Statistic, Button, Progress, List, Alert, Spin, Result, Badge, Typography, Tag, theme, Modal, Descriptions, Image as AntImage } from 'antd';
 import {
   PrinterOutlined,
   ArrowDownOutlined,
@@ -9,8 +9,10 @@ import {
   DashOutlined,
   FunctionOutlined,
   WarningOutlined,
-  AlertOutlined
+  AlertOutlined,
+  LinkOutlined
 } from '@ant-design/icons';
+import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ReferenceLine, ResponsiveContainer,
@@ -35,7 +37,12 @@ interface AnalysisResult {
     id: number; title: string; platform: string;
     price: number; cluster_label: string; is_anomaly: boolean; score: number;
   }>;
-  best_offer: { title: string; price: number; platform: string; score: number };
+  best_offer: { id?: number; title: string; price: number; platform: string; score: number; image?: string; url?: string };
+  barData: Array<{ name: string; count: number }>;
+  boxPlotData: Array<{ platform: string; min: number; max: number; q1: number; median: number; q3: number }>;
+  rules: Array<{ antecedents: string[]; consequents: string[]; confidence: number; lift: number }>;
+  cached: boolean;
+  computed_at: string;
 }
 
 const COLORS = {
@@ -51,6 +58,70 @@ const sectionVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
 };
 
+const PLATFORM_COLORS: Record<string, string> = {
+  jumia: '#f68b1e',
+  ebay: '#e53238',
+  aliexpress: '#ff4747'
+};
+
+const PLATFORM_LABELS: Record<string, string> = {
+  jumia: 'Jumia',
+  ebay: 'eBay',
+  aliexpress: 'AliExpress'
+};
+
+const ProductDetailModal: React.FC<{ product: any | null; open: boolean; onClose: () => void }> = ({ product, open, onClose }) => {
+  const [detail, setDetail] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const { token } = theme.useToken();
+
+  useEffect(() => {
+    if (open && product && product.id) {
+      setLoading(true);
+      apiFetch(`/products/${product.id}/`).then(d => { setDetail(d); setLoading(false); }).catch(() => setLoading(false));
+    } else { setDetail(null); }
+  }, [open, product]);
+
+  const d = detail || product;
+  if (!d) return null;
+  const pc = PLATFORM_COLORS[d.platform] || '#999';
+
+  return (
+    <Modal open={open} onCancel={onClose} footer={null} width={640} centered
+      styles={{ content: { borderRadius: 16 } }}
+    >
+      {loading ? <div style={{ textAlign: 'center', padding: 40 }}><Spin size="large" /></div> : (
+        <div style={{ padding: 8 }}>
+          <div style={{ display: 'flex', gap: 20, marginBottom: 24 }}>
+            <AntImage src={d.image} fallback="https://via.placeholder.com/120" width={120} style={{ borderRadius: 12, objectFit: 'contain', background: token.colorBgLayout }} preview={false} />
+            <div style={{ flex: 1 }}>
+              <Text style={{ color: token.colorTextHeading, fontSize: 18, fontWeight: 700, display: 'block', marginBottom: 8 }}>{d.title}</Text>
+              <Badge color={pc} text={<span style={{ color: token.colorText }}>{PLATFORM_LABELS[d.platform] || d.platform}</span>} />
+              {d.cluster_label && <Tag color="blue" style={{ marginLeft: 8 }}>{d.cluster_label}</Tag>}
+              {d.is_anomaly && <Tag color="red" style={{ marginLeft: 4 }}>⚠ Anomalie</Tag>}
+            </div>
+          </div>
+          <Descriptions column={2} size="small" style={{ marginBottom: 20 }}>
+            <Descriptions.Item label="Prix">{d.price != null ? `${(d.price_usd ? d.price_usd * 10 : d.price).toLocaleString()} MAD` : '—'}</Descriptions.Item>
+            <Descriptions.Item label="Prix USD">{d.price_usd != null ? `$${d.price_usd.toLocaleString()}` : '—'}</Descriptions.Item>
+            <Descriptions.Item label="Vendeur">{d.seller || '—'}</Descriptions.Item>
+            <Descriptions.Item label="Catégorie">{d.category || '—'}</Descriptions.Item>
+            <Descriptions.Item label="Note">{d.rating != null ? `${d.rating} ⭐` : '—'}</Descriptions.Item>
+            <Descriptions.Item label="Avis">{d.reviews_count ?? '—'}</Descriptions.Item>
+            <Descriptions.Item label="Première collecte">{d.first_seen ? dayjs(d.first_seen).format('DD/MM/YYYY HH:mm') : '—'}</Descriptions.Item>
+            <Descriptions.Item label="Dernière MàJ">{d.scraped_at ? dayjs(d.scraped_at).format('DD/MM/YYYY HH:mm') : '—'}</Descriptions.Item>
+          </Descriptions>
+          {d.url && (
+            <Button type="primary" icon={<LinkOutlined />} href={d.url} target="_blank" block style={{ borderRadius: 10, height: 44, background: 'linear-gradient(90deg, #3884ff, #624aff)', border: 'none' }}>
+              Voir sur {PLATFORM_LABELS[d.platform] || d.platform}
+            </Button>
+          )}
+        </div>
+      )}
+    </Modal>
+  );
+};
+
 const AnalysisPage: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -59,6 +130,8 @@ const AnalysisPage: React.FC = () => {
   const [loading, setLoading] = useState(!!query);
   const [error, setError] = useState(false);
   const [data, setData] = useState<AnalysisResult | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [showAnomaliesModal, setShowAnomaliesModal] = useState(false);
   const { isDarkMode } = useTheme();
   const { token } = theme.useToken();
 
@@ -81,20 +154,28 @@ const AnalysisPage: React.FC = () => {
         });
 
         // Calcul de la meilleure offre
-        let best_offer = { title: "N/A", price: 0, platform: "N/A", score: 0 };
+        let best_offer: any = { title: "N/A", price: 0, platform: "N/A", score: 0 };
         const validOffers = offers.filter((o: any) => !o.is_anomaly);
         if (validOffers.length > 0) {
           const sorted = validOffers.sort((a: any, b: any) => a.price - b.price);
           const best = sorted[0];
           best_offer = {
-            title: best.title,
-            price: best.price,
-            platform: best.platform,
+            ...best,
             score: 95 // Score factice en attendant une logique ML plus complexe
           };
         }
 
-        setData({ stats, cluster_counts, best_offer, offers });
+        setData({ 
+          stats, 
+          cluster_counts, 
+          best_offer, 
+          offers,
+          barData: resData.barData || [],
+          boxPlotData: resData.boxPlotData || [],
+          rules: resData.rules || [],
+          cached: resData.cached || false,
+          computed_at: resData.computed_at || ''
+        });
         setLoading(false);
       })
       .catch((err) => {
@@ -207,30 +288,13 @@ const AnalysisPage: React.FC = () => {
   );
 
 
-  const { stats, cluster_counts, best_offer, offers } = data;
+  const { stats, cluster_counts, best_offer, offers, barData, boxPlotData, rules, cached, computed_at } = data;
   const anomalies = offers.filter(o => o.is_anomaly).slice(0, 5);
-
-  // Mock data for BarChart (Distribution)
-  const barData = [
-    { name: '1.2k-1.6k', count: 40 },
-    { name: '1.6k-2.0k', count: 80 },
-    { name: '2.0k-2.4k', count: 120 },
-    { name: '2.4k-2.8k', count: 60 },
-    { name: '2.8k-3.2k', count: 30 },
-    { name: '3.2k-3.6k', count: 8 },
-    { name: '3.6k-4.0k', count: 4 },
-  ];
 
   const pieData = [
     { name: 'Bas de gamme', value: cluster_counts.bas, fill: COLORS.success },
     { name: 'Milieu', value: cluster_counts.milieu, fill: COLORS.primary },
     { name: 'Haut de gamme', value: cluster_counts.haut, fill: COLORS.purple },
-  ];
-
-  const boxPlotData = [
-    { platform: 'Jumia', min: 1200, max: 3500, q1: 1500, median: 2100, q3: 2800 },
-    { platform: 'Amazon', min: 1800, max: 4500, q1: 2200, median: 2900, q3: 3500 },
-    { platform: 'Avito', min: 800, max: 3000, q1: 1100, median: 1600, q3: 2200 },
   ];
 
   return (
@@ -239,7 +303,16 @@ const AnalysisPage: React.FC = () => {
       <div style={{ paddingTop: 64 }}>
     <PageContainer
       header={{
-        title: `Analyse des prix — ${query}`,
+        title: (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            Analyse des prix — {query}
+            {cached && (
+              <Tag color="purple" style={{ fontSize: 12, fontWeight: 'normal', display: 'flex', alignItems: 'center', margin: 0 }}>
+                Cache du {new Date(computed_at).toLocaleDateString()}
+              </Tag>
+            )}
+          </div>
+        ),
         breadcrumb: {
           items: [
             { title: 'Accueil', path: '/' },
@@ -345,29 +418,53 @@ const AnalysisPage: React.FC = () => {
         </Row>
 
         {/* ROW 3: RECOMMENDATION & ANOMALIES */}
-        <Row gutter={[24, 24]} style={{ marginBottom: 24 }}>
-          <Col xs={24} lg={12}>
-            <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.4 }}>
-              <Badge.Ribbon text="Recommandée" color="green">
-                <Card title="Meilleure offre recommandée" bordered={false} style={{ borderLeft: `4px solid ${COLORS.success}` }}>
-                  <Title level={5} ellipsis={{ tooltip: best_offer.title }}>{best_offer.title}</Title>
-                  <Badge color="blue" text={best_offer.platform.toUpperCase()} style={{ marginBottom: 16 }} />
-                  <div>
-                    <Text style={{ fontSize: 32, color: COLORS.success, fontWeight: 'bold' }}>
-                      {best_offer.price.toLocaleString()} MAD
-                    </Text>
+        <Row gutter={[24, 24]} style={{ marginBottom: 24, display: 'flex', alignItems: 'stretch' }}>
+          <Col xs={24} lg={12} style={{ display: 'flex', flexDirection: 'column' }}>
+            <motion.div initial={{ scale: 0.95, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.4 }} style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+              <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <style>{`
+                  .ant-ribbon-wrapper {
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                  }
+                `}</style>
+                <Badge.Ribbon text="Recommandée" color="green">
+                  <Card title="Meilleure offre recommandée" bordered={false} style={{ borderLeft: `4px solid ${COLORS.success}`, flex: 1, height: '100%' }} bodyStyle={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
+                    {best_offer.image && (
+                      <AntImage src={best_offer.image} fallback="https://via.placeholder.com/100" width={100} height={100} style={{ objectFit: 'contain', borderRadius: 8, background: token.colorBgLayout }} preview={false} />
+                    )}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <Title level={5} ellipsis={{ tooltip: best_offer.title }} style={{ margin: 0, marginBottom: 8 }}>{best_offer.title}</Title>
+                      <Badge color="blue" text={best_offer.platform?.toUpperCase() || 'N/A'} style={{ marginBottom: 16 }} />
+                      <div>
+                        <Text style={{ fontSize: 24, color: COLORS.success, fontWeight: 'bold' }}>
+                          {best_offer.price?.toLocaleString()} MAD
+                        </Text>
+                      </div>
+                    </div>
                   </div>
-                  <div style={{ marginTop: 16 }}>
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                     <Text type="secondary">Score de recommandation</Text>
                     <Progress percent={best_offer.score} strokeColor={COLORS.success} />
+                    <div style={{ padding: '16px', background: token.colorBgLayout, borderRadius: 8, marginTop: 16 }}>
+                      <Text strong style={{ display: 'block', marginBottom: 8, color: token.colorTextHeading }}>💡 Pourquoi cette offre ?</Text>
+                      <ul style={{ paddingLeft: 20, margin: 0, color: token.colorTextSecondary }}>
+                        <li style={{ marginBottom: 6 }}>Prix très compétitif parmi les offres fiables.</li>
+                        <li style={{ marginBottom: 6 }}>Aucune anomalie détectée par notre algorithme (Isolation Forest).</li>
+                        <li>Correspond parfaitement au marché actuel.</li>
+                      </ul>
+                    </div>
                   </div>
-                  <Button type="primary" style={{ marginTop: 16 }}>Voir l'offre</Button>
+                  <Button type="primary" style={{ marginTop: 'auto', alignSelf: 'flex-start' }} onClick={() => setSelectedProduct(best_offer)}>Voir l'offre complet</Button>
                 </Card>
-              </Badge.Ribbon>
+                </Badge.Ribbon>
+              </div>
             </motion.div>
           </Col>
-          <Col xs={24} lg={12}>
-            <Card title="Liste des anomalies détectées" bordered={false}>
+          <Col xs={24} lg={12} style={{ display: 'flex', flexDirection: 'column' }}>
+            <Card title="Liste des anomalies détectées" bordered={false} style={{ flex: 1, height: '100%', display: 'flex', flexDirection: 'column' }} bodyStyle={{ flex: 1 }}>
               <Alert
                 message="Prix suspects détectés"
                 description="Ces offres ont été identifiées comme anormales par Isolation Forest"
@@ -380,18 +477,22 @@ const AnalysisPage: React.FC = () => {
                 dataSource={anomalies}
                 renderItem={(item, index) => (
                   <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: index * 0.05 }}>
-                    <List.Item>
+                    <List.Item actions={[<Button type="link" size="small" onClick={() => setSelectedProduct(item)}>Voir</Button>]}>
                       <List.Item.Meta
                         avatar={<AlertOutlined style={{ color: COLORS.error, fontSize: 20 }} />}
                         title={<Text ellipsis style={{ width: '100%', display: 'inline-block' }}>{item.title}</Text>}
                         description={<Tag color="red">{item.platform}</Tag>}
                       />
-                      <div style={{ color: COLORS.error, fontWeight: 'bold' }}>{item.price} MAD</div>
+                      <div style={{ color: COLORS.error, fontWeight: 'bold' }}>{item.price?.toLocaleString()} MAD</div>
                     </List.Item>
                   </motion.div>
                 )}
               />
-              {anomalies.length > 0 && <Button type="link">Voir tout</Button>}
+              {offers.filter(o => o.is_anomaly).length > 5 && (
+                <Button type="link" onClick={() => setShowAnomaliesModal(true)}>
+                  Voir toutes les {offers.filter(o => o.is_anomaly).length} anomalies
+                </Button>
+              )}
             </Card>
           </Col>
         </Row>
@@ -432,7 +533,64 @@ const AnalysisPage: React.FC = () => {
           </Card>
         </motion.div>
 
+        {/* ROW 5: RÈGLES D'ASSOCIATION */}
+        {rules && rules.length > 0 && (
+          <motion.div whileInView={{ opacity: 1, y: 0 }} initial={{ opacity: 0, y: 24 }} viewport={{ once: true, margin: '-60px' }}>
+            <Card title="Insights (Règles d'association FP-Growth)" bordered={false} style={{ marginTop: 24 }}>
+              <List
+                dataSource={rules}
+                renderItem={(rule) => (
+                  <List.Item>
+                    <List.Item.Meta
+                      avatar={<FunctionOutlined style={{ color: COLORS.purple, fontSize: 20 }} />}
+                      title={
+                        <Text>
+                          Si <Tag color="blue">{rule.antecedents.join(', ').replace('Platform_', '').replace('Gamme_', '')}</Tag> 
+                          alors souvent <Tag color="cyan">{rule.consequents.join(', ').replace('Platform_', '').replace('Gamme_', '')}</Tag>
+                        </Text>
+                      }
+                      description={
+                        <Text type="secondary">
+                          Confiance: <strong style={{ color: COLORS.primary }}>{rule.confidence}%</strong> | 
+                          Lift: <strong>{rule.lift}</strong>
+                        </Text>
+                      }
+                    />
+                  </List.Item>
+                )}
+              />
+            </Card>
+          </motion.div>
+        )}
+
       </motion.div>
+      
+      <ProductDetailModal product={selectedProduct} open={!!selectedProduct} onClose={() => setSelectedProduct(null)} />
+      
+      <Modal 
+        title="Toutes les anomalies détectées" 
+        open={showAnomaliesModal} 
+        onCancel={() => setShowAnomaliesModal(false)} 
+        footer={null} 
+        width={700}
+      >
+        <List
+          itemLayout="horizontal"
+          dataSource={offers.filter(o => o.is_anomaly)}
+          style={{ maxHeight: 500, overflowY: 'auto' }}
+          renderItem={(item) => (
+            <List.Item actions={[<Button type="link" onClick={() => { setSelectedProduct(item); setShowAnomaliesModal(false); }}>Voir</Button>]}>
+              <List.Item.Meta
+                avatar={<AlertOutlined style={{ color: COLORS.error, fontSize: 20 }} />}
+                title={<Text ellipsis>{item.title}</Text>}
+                description={<Tag color="red">{item.platform}</Tag>}
+              />
+              <div style={{ color: COLORS.error, fontWeight: 'bold' }}>{item.price?.toLocaleString()} MAD</div>
+            </List.Item>
+          )}
+        />
+      </Modal>
+
     </PageContainer>
       </div>
     </div>

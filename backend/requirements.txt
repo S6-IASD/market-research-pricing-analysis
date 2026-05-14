@@ -33,3 +33,4 @@ lxml==5.2.1
 # Data mining (future)
 pandas==2.2.2
 scikit-learn==1.5.1
+mlxtend==0.23.1

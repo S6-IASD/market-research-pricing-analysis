@@ -142,10 +142,11 @@ class SearchView(APIView):
         Retourne le task_id Celery ou None si limite dépassée.
         """
         # a. Vérifier la limite 5/jour via Redis
+        from datetime import date
         cache_key = f"deepsearch_{user.id}_{date.today()}"
         count = cache.get(cache_key, 0)
 
-        if count >= 5:
+        if count >= 500: # Augmenté temporairement pour les tests
             return None
 
         import uuid
@@ -217,8 +218,10 @@ class SearchStatusView(APIView):
 
 
 # ── Vue 3 — Data Mining (Analyse) ───────────────────────────
-
 from products.services.datamining_service import analyze_products
+from products.models import AnalysisResult
+from django.utils import timezone
+import datetime
 
 class AnalyzeDataView(APIView):
     """
@@ -241,9 +244,37 @@ class AnalyzeDataView(APIView):
             )
 
         try:
+            # 1. Vérifier si un résultat récent existe (moins de 24h)
+            time_threshold = timezone.now() - datetime.timedelta(hours=24)
+            recent_analysis = AnalysisResult.objects.filter(
+                query=query, 
+                is_latest=True, 
+                computed_at__gte=time_threshold
+            ).first()
+
+            if recent_analysis:
+                result = recent_analysis.result_json
+                result['cached'] = True
+                result['computed_at'] = recent_analysis.computed_at.isoformat()
+                return Response(result, status=status.HTTP_200_OK)
+
+            # 2. Sinon, lancer l'analyse
             result = analyze_products(query)
             if "error" in result:
                 return Response(result, status=status.HTTP_400_BAD_REQUEST)
+            
+            # 3. Sauvegarder le résultat
+            AnalysisResult.objects.filter(query=query).update(is_latest=False)
+            analysis_obj = AnalysisResult.objects.create(
+                query=query,
+                category="mixed",
+                analysis_type="cluster",
+                result_json=result,
+                is_latest=True
+            )
+            
+            result['cached'] = False
+            result['computed_at'] = analysis_obj.computed_at.isoformat()
                 
             return Response(result, status=status.HTTP_200_OK)
         except Exception as e:
