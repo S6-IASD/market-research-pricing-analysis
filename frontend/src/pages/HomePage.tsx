@@ -101,7 +101,7 @@ const HomePage: React.FC = () => {
       color: '#a261ff',
     },
     {
-      name: 'Abderrahim Aamirro',
+      name: 'Abderrahim Aamirrou',
       role: 'Frontend & UI/UX',
       desc: 'Création du Dashboard interactif, intégration des visualisations Recharts et du design moderne Ant Design.',
       icon: <CodeOutlined />,
