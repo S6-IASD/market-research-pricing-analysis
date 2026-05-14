@@ -1,0 +1,719 @@
+{
+  "params": {
+    "min_support": 0.05,
+    "min_confidence": 0.5,
+    "min_lift": 1.2,
+    "algorithm": "FP-Growth (mlxtend)",
+    "features_used": [
+      "brand",
+      "platform",
+      "ram_gb",
+      "storage_gb",
+      "cluster_kmeans_label",
+      "anomaly_type"
+    ],
+    "note": "rating et reviews_count exclus (supprimés Phase 1, 100% NaN)"
+  },
+  "stats": {
+    "n_transactions": 50,
+    "n_items": 25,
+    "n_frequent_itemsets": 219,
+    "n_rules_total": 409,
+    "n_rules_gamme": 149,
+    "n_rules_anomalie": 0
+  },
+  "top_rules_gamme": [
+    {
+      "antecedents": [
+        "brand_honor",
+        "ram_32go+"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_2to+"
+      ],
+      "rule": "brand_honor, ram_32go+  →  bas_de_gamme, ssd_2to+",
+      "support": 0.06,
+      "confidence": 1.0,
+      "lift": 10.0
+    },
+    {
+      "antecedents": [
+        "ssd_2to+",
+        "normal"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "brand_honor"
+      ],
+      "rule": "normal, ssd_2to+  →  bas_de_gamme, brand_honor",
+      "support": 0.06,
+      "confidence": 0.5,
+      "lift": 8.3333
+    },
+    {
+      "antecedents": [
+        "brand_honor"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+",
+        "ssd_2to+"
+      ],
+      "rule": "brand_honor  →  bas_de_gamme, ram_32go+, ssd_2to+",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 7.5
+    },
+    {
+      "antecedents": [
+        "brand_honor"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_2to+"
+      ],
+      "rule": "brand_honor  →  bas_de_gamme, ssd_2to+",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 6.0
+    },
+    {
+      "antecedents": [
+        "brand_honor",
+        "platform_aliexpress"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_2to+"
+      ],
+      "rule": "brand_honor, platform_aliexpress  →  bas_de_gamme, ssd_2to+",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 6.0
+    },
+    {
+      "antecedents": [
+        "brand_honor"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "platform_aliexpress",
+        "ssd_2to+"
+      ],
+      "rule": "brand_honor  →  bas_de_gamme, platform_aliexpress, ssd_2to+",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 6.0
+    },
+    {
+      "antecedents": [
+        "brand_honor"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_2to+",
+        "normal"
+      ],
+      "rule": "brand_honor  →  bas_de_gamme, normal, ssd_2to+",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 6.0
+    },
+    {
+      "antecedents": [
+        "brand_honor",
+        "normal"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_2to+"
+      ],
+      "rule": "brand_honor, normal  →  bas_de_gamme, ssd_2to+",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 6.0
+    },
+    {
+      "antecedents": [
+        "brand_acer"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+",
+        "ssd_1to"
+      ],
+      "rule": "brand_acer  →  bas_de_gamme, ram_32go+, ssd_1to",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 4.2857
+    },
+    {
+      "antecedents": [
+        "brand_honor",
+        "ssd_2to+"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+"
+      ],
+      "rule": "brand_honor, ssd_2to+  →  bas_de_gamme, ram_32go+",
+      "support": 0.06,
+      "confidence": 1.0,
+      "lift": 4.1667
+    },
+    {
+      "antecedents": [
+        "platform_aliexpress",
+        "brand_acer"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_1to"
+      ],
+      "rule": "brand_acer, platform_aliexpress  →  bas_de_gamme, ssd_1to",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 3.6364
+    },
+    {
+      "antecedents": [
+        "brand_acer"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_1to",
+        "normal"
+      ],
+      "rule": "brand_acer  →  bas_de_gamme, normal, ssd_1to",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 3.6364
+    },
+    {
+      "antecedents": [
+        "brand_acer"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_1to"
+      ],
+      "rule": "brand_acer  →  bas_de_gamme, ssd_1to",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 3.6364
+    },
+    {
+      "antecedents": [
+        "brand_acer"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_1to",
+        "platform_aliexpress"
+      ],
+      "rule": "brand_acer  →  bas_de_gamme, platform_aliexpress, ssd_1to",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 3.6364
+    },
+    {
+      "antecedents": [
+        "brand_acer",
+        "normal"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_1to"
+      ],
+      "rule": "brand_acer, normal  →  bas_de_gamme, ssd_1to",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 3.6364
+    },
+    {
+      "antecedents": [
+        "brand_huawei",
+        "ssd_512go"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_16go"
+      ],
+      "rule": "brand_huawei, ssd_512go  →  bas_de_gamme, ram_16go",
+      "support": 0.06,
+      "confidence": 1.0,
+      "lift": 3.5714
+    },
+    {
+      "antecedents": [
+        "ram_32go+",
+        "brand_acer"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_1to"
+      ],
+      "rule": "brand_acer, ram_32go+  →  bas_de_gamme, ssd_1to",
+      "support": 0.06,
+      "confidence": 0.75,
+      "lift": 3.4091
+    },
+    {
+      "antecedents": [
+        "ram_16go",
+        "brand_huawei"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_512go"
+      ],
+      "rule": "brand_huawei, ram_16go  →  bas_de_gamme, ssd_512go",
+      "support": 0.06,
+      "confidence": 0.75,
+      "lift": 3.4091
+    },
+    {
+      "antecedents": [
+        "brand_huawei"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "platform_aliexpress",
+        "ssd_512go"
+      ],
+      "rule": "brand_huawei  →  bas_de_gamme, platform_aliexpress, ssd_512go",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 3.3333
+    },
+    {
+      "antecedents": [
+        "brand_huawei"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_16go",
+        "ssd_512go"
+      ],
+      "rule": "brand_huawei  →  bas_de_gamme, ram_16go, ssd_512go",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 3.3333
+    },
+    {
+      "antecedents": [
+        "platform_aliexpress",
+        "brand_acer"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+"
+      ],
+      "rule": "brand_acer, platform_aliexpress  →  bas_de_gamme, ram_32go+",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 3.3333
+    },
+    {
+      "antecedents": [
+        "brand_acer",
+        "normal"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+"
+      ],
+      "rule": "brand_acer, normal  →  bas_de_gamme, ram_32go+",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 3.3333
+    },
+    {
+      "antecedents": [
+        "brand_acer"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+"
+      ],
+      "rule": "brand_acer  →  bas_de_gamme, ram_32go+",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 3.3333
+    },
+    {
+      "antecedents": [
+        "brand_acer"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+",
+        "platform_aliexpress"
+      ],
+      "rule": "brand_acer  →  bas_de_gamme, platform_aliexpress, ram_32go+",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 3.3333
+    },
+    {
+      "antecedents": [
+        "brand_acer"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+",
+        "normal"
+      ],
+      "rule": "brand_acer  →  bas_de_gamme, normal, ram_32go+",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 3.3333
+    },
+    {
+      "antecedents": [
+        "platform_aliexpress",
+        "ssd_512go"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_16go"
+      ],
+      "rule": "platform_aliexpress, ssd_512go  →  bas_de_gamme, ram_16go",
+      "support": 0.16,
+      "confidence": 0.8889,
+      "lift": 3.1746
+    },
+    {
+      "antecedents": [
+        "ssd_1to",
+        "brand_acer"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+"
+      ],
+      "rule": "brand_acer, ssd_1to  →  bas_de_gamme, ram_32go+",
+      "support": 0.06,
+      "confidence": 0.75,
+      "lift": 3.125
+    },
+    {
+      "antecedents": [
+        "brand_huawei"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_16go",
+        "platform_aliexpress"
+      ],
+      "rule": "brand_huawei  →  bas_de_gamme, platform_aliexpress, ram_16go",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 3.0769
+    },
+    {
+      "antecedents": [
+        "ssd_512go"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_16go",
+        "normal"
+      ],
+      "rule": "ssd_512go  →  bas_de_gamme, normal, ram_16go",
+      "support": 0.18,
+      "confidence": 0.8182,
+      "lift": 2.9221
+    },
+    {
+      "antecedents": [
+        "ssd_512go"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_16go"
+      ],
+      "rule": "ssd_512go  →  bas_de_gamme, ram_16go",
+      "support": 0.18,
+      "confidence": 0.8182,
+      "lift": 2.9221
+    },
+    {
+      "antecedents": [
+        "normal",
+        "ssd_512go"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_16go"
+      ],
+      "rule": "normal, ssd_512go  →  bas_de_gamme, ram_16go",
+      "support": 0.18,
+      "confidence": 0.8182,
+      "lift": 2.9221
+    },
+    {
+      "antecedents": [
+        "brand_huawei",
+        "normal"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_16go"
+      ],
+      "rule": "brand_huawei, normal  →  bas_de_gamme, ram_16go",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 2.8571
+    },
+    {
+      "antecedents": [
+        "brand_huawei"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_16go",
+        "normal"
+      ],
+      "rule": "brand_huawei  →  bas_de_gamme, normal, ram_16go",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 2.8571
+    },
+    {
+      "antecedents": [
+        "brand_huawei"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_16go"
+      ],
+      "rule": "brand_huawei  →  bas_de_gamme, ram_16go",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 2.8571
+    },
+    {
+      "antecedents": [
+        "platform_aliexpress",
+        "brand_huawei"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_16go"
+      ],
+      "rule": "brand_huawei, platform_aliexpress  →  bas_de_gamme, ram_16go",
+      "support": 0.08,
+      "confidence": 0.8,
+      "lift": 2.8571
+    },
+    {
+      "antecedents": [
+        "ssd_512go"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_16go",
+        "platform_aliexpress"
+      ],
+      "rule": "ssd_512go  →  bas_de_gamme, platform_aliexpress, ram_16go",
+      "support": 0.16,
+      "confidence": 0.7273,
+      "lift": 2.7972
+    },
+    {
+      "antecedents": [
+        "ssd_2to+",
+        "normal"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+"
+      ],
+      "rule": "normal, ssd_2to+  →  bas_de_gamme, ram_32go+",
+      "support": 0.08,
+      "confidence": 0.6667,
+      "lift": 2.7778
+    },
+    {
+      "antecedents": [
+        "ram_16go"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "platform_aliexpress",
+        "ssd_512go"
+      ],
+      "rule": "ram_16go  →  bas_de_gamme, platform_aliexpress, ssd_512go",
+      "support": 0.16,
+      "confidence": 0.5,
+      "lift": 2.7778
+    },
+    {
+      "antecedents": [
+        "brand_huawei",
+        "normal"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_512go"
+      ],
+      "rule": "brand_huawei, normal  →  bas_de_gamme, ssd_512go",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 2.7273
+    },
+    {
+      "antecedents": [
+        "platform_aliexpress",
+        "brand_huawei"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_512go"
+      ],
+      "rule": "brand_huawei, platform_aliexpress  →  bas_de_gamme, ssd_512go",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 2.7273
+    },
+    {
+      "antecedents": [
+        "brand_huawei"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_512go"
+      ],
+      "rule": "brand_huawei  →  bas_de_gamme, ssd_512go",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 2.7273
+    },
+    {
+      "antecedents": [
+        "brand_huawei"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "normal",
+        "ssd_512go"
+      ],
+      "rule": "brand_huawei  →  bas_de_gamme, normal, ssd_512go",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 2.7273
+    },
+    {
+      "antecedents": [
+        "ram_16go"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "normal",
+        "ssd_512go"
+      ],
+      "rule": "ram_16go  →  bas_de_gamme, normal, ssd_512go",
+      "support": 0.18,
+      "confidence": 0.5625,
+      "lift": 2.5568
+    },
+    {
+      "antecedents": [
+        "ram_16go",
+        "normal"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_512go"
+      ],
+      "rule": "normal, ram_16go  →  bas_de_gamme, ssd_512go",
+      "support": 0.18,
+      "confidence": 0.5625,
+      "lift": 2.5568
+    },
+    {
+      "antecedents": [
+        "ram_16go"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ssd_512go"
+      ],
+      "rule": "ram_16go  →  bas_de_gamme, ssd_512go",
+      "support": 0.18,
+      "confidence": 0.5625,
+      "lift": 2.5568
+    },
+    {
+      "antecedents": [
+        "brand_honor",
+        "normal"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+"
+      ],
+      "rule": "brand_honor, normal  →  bas_de_gamme, ram_32go+",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 2.5
+    },
+    {
+      "antecedents": [
+        "brand_honor",
+        "platform_aliexpress"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+"
+      ],
+      "rule": "brand_honor, platform_aliexpress  →  bas_de_gamme, ram_32go+",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 2.5
+    },
+    {
+      "antecedents": [
+        "brand_honor"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+",
+        "platform_aliexpress"
+      ],
+      "rule": "brand_honor  →  bas_de_gamme, platform_aliexpress, ram_32go+",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 2.5
+    },
+    {
+      "antecedents": [
+        "brand_honor"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+",
+        "normal"
+      ],
+      "rule": "brand_honor  →  bas_de_gamme, normal, ram_32go+",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 2.5
+    },
+    {
+      "antecedents": [
+        "brand_honor"
+      ],
+      "consequents": [
+        "bas_de_gamme",
+        "ram_32go+"
+      ],
+      "rule": "brand_honor  →  bas_de_gamme, ram_32go+",
+      "support": 0.06,
+      "confidence": 0.6,
+      "lift": 2.5
+    }
+  ]
+}
