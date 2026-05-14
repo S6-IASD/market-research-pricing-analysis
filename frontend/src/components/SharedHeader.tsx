@@ -1,12 +1,15 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Button } from 'antd';
+import { Button, theme } from 'antd';
 import {
   LineChartOutlined,
   UserOutlined,
   LogoutOutlined,
+  SunOutlined,
+  MoonOutlined,
 } from '@ant-design/icons';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import '../assets/homepage.css';
 
 const NAV_LINKS = [
@@ -20,6 +23,8 @@ const SharedHeader: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { isAuthenticated, logout } = useAuth();
+  const { isDarkMode, toggleDarkMode } = useTheme();
+  const { token } = theme.useToken();
 
   return (
     <div style={{
@@ -29,8 +34,8 @@ const SharedHeader: React.FC = () => {
       right: 0,
       zIndex: 1000,
       height: 64,
-      background: 'rgba(2, 11, 22, 0.97)',
-      borderBottom: '1px solid rgba(255, 255, 255, 0.07)',
+      background: isDarkMode ? 'rgba(2, 11, 22, 0.97)' : 'rgba(255, 255, 255, 0.97)',
+      borderBottom: `1px solid ${token.colorBorderSecondary}`,
       backdropFilter: 'blur(12px)',
       display: 'flex',
       alignItems: 'center',
@@ -41,9 +46,9 @@ const SharedHeader: React.FC = () => {
       <div style={{ display: 'flex', alignItems: 'center', gap: 48 }}>
         <div
           onClick={() => navigate('/')}
-          style={{ fontSize: 20, fontWeight: 800, color: '#fff', display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
+          style={{ fontSize: 20, fontWeight: 800, color: token.colorTextHeading, display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}
         >
-          <LineChartOutlined style={{ color: '#4da1ff' }} />
+          <LineChartOutlined style={{ color: token.colorPrimary }} />
           MarketMetrics
         </div>
 
@@ -57,9 +62,9 @@ const SharedHeader: React.FC = () => {
                 type="text"
                 onClick={() => navigate(path)}
                 style={{
-                  color: isActive ? '#4da1ff' : 'rgba(255,255,255,0.65)',
+                  color: isActive ? token.colorPrimary : token.colorTextSecondary,
                   fontWeight: isActive ? 600 : 400,
-                  borderBottom: isActive ? '2px solid #4da1ff' : '2px solid transparent',
+                  borderBottom: isActive ? `2px solid ${token.colorPrimary}` : '2px solid transparent',
                   borderRadius: 0,
                   transition: 'all 0.2s',
                 }}
@@ -71,13 +76,20 @@ const SharedHeader: React.FC = () => {
         </nav>
       </div>
 
-      {/* Auth Buttons */}
+      {/* Actions */}
       <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+        <Button
+          type="text"
+          shape="circle"
+          style={{ border: `1px solid ${token.colorBorder}`, color: token.colorText }}
+          icon={isDarkMode ? <SunOutlined /> : <MoonOutlined />}
+          onClick={toggleDarkMode}
+        />
         {isAuthenticated ? (
           <Button
             icon={<LogoutOutlined />}
             onClick={logout}
-            style={{ borderRadius: 20, borderColor: '#ff4d4f', color: '#ff4d4f', background: 'transparent' }}
+            style={{ borderRadius: 20, borderColor: token.colorError, color: token.colorError, background: 'transparent' }}
           >
             Déconnexion
           </Button>
@@ -86,7 +98,7 @@ const SharedHeader: React.FC = () => {
             <Button
               type="link"
               onClick={() => navigate('/login')}
-              style={{ color: 'rgba(255,255,255,0.8)' }}
+              style={{ color: token.colorText }}
             >
               Connexion
             </Button>

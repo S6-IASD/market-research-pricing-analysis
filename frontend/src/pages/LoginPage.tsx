@@ -1,10 +1,11 @@
 import React from 'react';
-import { Form, Input, Button, Typography, message } from 'antd';
+import { Form, Input, Button, Typography, message, theme } from 'antd';
 import { UserOutlined, LockOutlined, LineChartOutlined } from '@ant-design/icons';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import SharedHeader from '../components/SharedHeader';
+import { useTheme } from '../context/ThemeContext';
 
 const { Title, Text } = Typography;
 
@@ -14,6 +15,8 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = (location.state as any)?.from?.pathname || '/';
+  const { isDarkMode } = useTheme();
+  const { token } = theme.useToken();
 
   const onFinish = async (values: any) => {
     try {
@@ -26,7 +29,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#020b16' }}>
+    <div style={{ minHeight: '100vh', background: token.colorBgLayout }}>
       <SharedHeader />
       <div style={{
         minHeight: '100vh',
@@ -34,7 +37,7 @@ const LoginPage: React.FC = () => {
         alignItems: 'center',
         justifyContent: 'center',
         padding: '88px 24px 24px',
-        background: 'radial-gradient(ellipse at 50% 0%, rgba(77,161,255,0.08) 0%, transparent 60%)',
+        background: isDarkMode ? 'radial-gradient(ellipse at 50% 0%, rgba(77,161,255,0.08) 0%, transparent 60%)' : 'radial-gradient(ellipse at 50% 0%, rgba(77,161,255,0.15) 0%, transparent 60%)',
       }}>
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -44,20 +47,20 @@ const LoginPage: React.FC = () => {
         >
           {/* Card */}
           <div style={{
-            background: 'rgba(255,255,255,0.04)',
+            background: token.colorBgContainer,
             backdropFilter: 'blur(20px)',
             borderRadius: 20,
             padding: '44px 40px',
-            boxShadow: '0 24px 64px rgba(0,0,0,0.4)',
-            border: '1px solid rgba(255,255,255,0.08)',
+            boxShadow: isDarkMode ? '0 24px 64px rgba(0,0,0,0.4)' : '0 24px 64px rgba(0,0,0,0.08)',
+            border: `1px solid ${token.colorBorderSecondary}`,
           }}>
             {/* Logo */}
             <div style={{ textAlign: 'center', marginBottom: 32 }}>
-              <div style={{ fontSize: 36, color: '#4da1ff', marginBottom: 12 }}>
+              <div style={{ fontSize: 36, color: token.colorPrimary, marginBottom: 12 }}>
                 <LineChartOutlined />
               </div>
-              <Title level={2} style={{ color: '#fff', margin: 0, fontWeight: 800 }}>Connexion</Title>
-              <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>
+              <Title level={2} style={{ color: token.colorTextHeading, margin: 0, fontWeight: 800 }}>Connexion</Title>
+              <Text style={{ color: token.colorTextSecondary, fontSize: 14 }}>
                 Connectez-vous pour accéder à vos analyses
               </Text>
             </div>
@@ -65,21 +68,19 @@ const LoginPage: React.FC = () => {
             <Form form={form} name="login" onFinish={onFinish} layout="vertical" requiredMark={false}>
               <Form.Item name="username" rules={[{ required: true, message: "Nom d'utilisateur requis" }]}>
                 <Input
-                  prefix={<UserOutlined style={{ color: 'rgba(255,255,255,0.35)' }} />}
+                  prefix={<UserOutlined style={{ color: token.colorTextTertiary }} />}
                   placeholder="Nom d'utilisateur"
                   size="large"
-                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10 }}
-                  className='[&_input::placeholder]:text-white'
+                  style={{ background: token.colorBgLayout, border: `1px solid ${token.colorBorder}`, borderRadius: 10, color: token.colorText }}
                 />
               </Form.Item>
 
               <Form.Item name="password" rules={[{ required: true, message: 'Mot de passe requis' }]}>
                 <Input.Password
-                  prefix={<LockOutlined style={{ color: 'rgba(255,255,255,0.35)' }} />}
+                  prefix={<LockOutlined style={{ color: token.colorTextTertiary }} />}
                   placeholder="Mot de passe"
                   size="large"
-                  style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: 10 }}
-                  className='[&_input::placeholder]:text-white'
+                  style={{ background: token.colorBgLayout, border: `1px solid ${token.colorBorder}`, borderRadius: 10, color: token.colorText }}
                 />
               </Form.Item>
 
@@ -103,9 +104,9 @@ const LoginPage: React.FC = () => {
               </Form.Item>
 
               <div style={{ textAlign: 'center' }}>
-                <Text style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>
+                <Text style={{ color: token.colorTextSecondary, fontSize: 13 }}>
                   Pas encore de compte ?{' '}
-                  <Link to="/register" style={{ color: '#4da1ff', fontWeight: 600 }}>Créer un compte</Link>
+                  <Link to="/register" style={{ color: token.colorPrimary, fontWeight: 600 }}>Créer un compte</Link>
                 </Text>
               </div>
             </Form>

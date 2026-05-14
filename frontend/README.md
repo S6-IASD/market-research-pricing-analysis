@@ -1,73 +1,73 @@
-# React + TypeScript + Vite
+# Market Research & Pricing Analysis - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Il s'agit de l'application front-end pour la plateforme d'analyse de marché et de tarification. Elle est construite avec React, Vite et TypeScript, offrant une interface utilisateur moderne, réactive et dynamique.
 
-Currently, two official plugins are available:
+## 🚀 Technologies utilisées
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Framework**: [React 19](https://react.dev/) avec [Vite](https://vitejs.dev/)
+- **Langage**: TypeScript
+- **Style**: [Tailwind CSS 4](https://tailwindcss.com/) & [Ant Design 5](https://ant.design/)
+- **Graphiques et Visualisation de données**: [Recharts](https://recharts.org/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Routage**: [React Router](https://reactrouter.com/)
 
-## React Compiler
+## 📂 Structure du projet
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+frontend/
+├── src/
+│   ├── api/          # Client API et configurations des requêtes
+│   ├── components/   # Composants UI réutilisables (En-têtes, Cartes, etc.)
+│   ├── context/      # Fournisseurs de contexte React (Thème, Auth, etc.)
+│   ├── pages/        # Pages principales de l'application (Accueil, Analyse, etc.)
+│   ├── App.tsx       # Composant principal de l'application
+│   ├── index.css     # Styles globaux et directives Tailwind
+│   └── main.tsx      # Point d'entrée de l'application
+├── public/           # Ressources statiques
+├── package.json      # Dépendances et scripts
+└── vite.config.ts    # Configuration de Vite
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Démarrage
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Prérequis
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Assurez-vous d'avoir Node.js (version 18+ recommandée) et npm (ou yarn/pnpm) installés sur votre machine.
+
+### Installation
+
+1. Accédez au répertoire frontend :
+   ```bash
+   cd frontend
+   ```
+2. Installez les dépendances :
+   ```bash
+   npm install
+   ```
+
+### Lancer le serveur de développement
+
+Pour démarrer le serveur de développement local :
+
+```bash
+npm run dev
 ```
+
+L'application sera disponible sur `http://localhost:5173`.
+
+### Compiler pour la production
+
+Pour créer une version optimisée pour la production :
+
+```bash
+npm run build
+```
+
+Les fichiers compilés seront générés dans le dossier `dist`.
+
+## ✨ Fonctionnalités
+
+- **Thème dynamique** : Prend en charge les modes Clair et Sombre avec des transitions fluides.
+- **Visualisation de données** : Graphiques interactifs pour la distribution des prix et la segmentation du marché.
+- **Design réactif** : Mise en page entièrement responsive, optimisée pour ordinateurs, tablettes et mobiles.
+- **Export PDF** : Générez et téléchargez des rapports d'analyse nativement.
