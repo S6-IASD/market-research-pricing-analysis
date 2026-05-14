@@ -92,31 +92,45 @@ class ScraperService:
     
     def _run_parallel(self, spider_classes, query, category_hint, max_workers):
         """Lance spiders en parallèle avec ThreadPool."""
+        from concurrent.futures import wait
         all_raw = []
         errors = []
         
-        with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            futures = {
-                executor.submit(self._run_single, cls, query, category_hint): name
-                for name, cls in spider_classes.items()
-            }
+        executor = ThreadPoolExecutor(max_workers=max_workers)
+        futures = {
+            executor.submit(self._run_single, cls, query, category_hint): name
+            for name, cls in spider_classes.items()
+        }
+        
+        # Utiliser wait pour garantir un timeout global strict
+        done, not_done = wait(futures.keys(), timeout=240)
+        
+        for future in done:
+            name = futures[future]
+            try:
+                products = future.result()
+                all_raw.extend(products)
+                self.logger.info(f"  ✓ {name}: {len(products)} products")
+            except Exception as e:
+                errors.append({"platform": name, "error": str(e)})
+                self.logger.error(f"  ✗ {name}: {e}")
+        
+        for future in not_done:
+            name = futures[future]
+            error_msg = "Timeout strict dépassé (240s)"
+            errors.append({"platform": name, "error": error_msg})
+            self.logger.error(f"  ✗ {name}: {error_msg}")
+            future.cancel()
             
-            for future in as_completed(futures):
-                name = futures[future]
-                try:
-                    products = future.result(timeout=120)
-                    all_raw.extend(products)
-                    self.logger.info(f"  ✓ {name}: {len(products)} products")
-                except Exception as e:
-                    errors.append({"platform": name, "error": str(e)})
-                    self.logger.error(f"  ✗ {name}: {e}")
+        # Ne pas bloquer le thread principal si un scraper est bloqué
+        executor.shutdown(wait=False, cancel_futures=True)
         
         return all_raw, errors
     
     def _run_single(self, spider_cls, query, category_hint):
         """Exécute un spider."""
         spider = spider_cls(query, category_hint)
-        return spider.run()
+        return spider.run(max_pages=3)
     
     def _count_by_platform(self, products: List[Dict]) -> Dict[str, int]:
         from collections import defaultdict

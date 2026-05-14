@@ -10,14 +10,24 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons": "^6.2.2",
+    "@ant-design/pro-components": "^2.8.10",
     "@tailwindcss/vite": "^4.3.0",
+    "antd": "^5.29.3",
+    "dayjs": "^1.11.20",
+    "framer-motion": "^12.38.0",
+    "papaparse": "^5.5.3",
     "react": "^19.2.5",
+    "react-countup": "^6.5.3",
     "react-dom": "^19.2.5",
+    "react-router-dom": "^7.15.0",
+    "recharts": "^3.8.1",
     "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^24.12.2",
+    "@types/papaparse": "^5.5.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
