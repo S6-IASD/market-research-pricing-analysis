@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PageContainer } from '@ant-design/pro-components';
-import { Row, Col, Card, Statistic, Button, Progress, List, Alert, Spin, Result, Badge, Typography, Tag } from 'antd';
+import { Row, Col, Card, Statistic, Button, Progress, List, Alert, Spin, Result, Badge, Typography, Tag, theme } from 'antd';
 import {
   PrinterOutlined,
   ArrowDownOutlined,
@@ -19,6 +19,7 @@ import {
 } from 'recharts';
 import { apiFetch } from '../api/client';
 import SharedHeader from '../components/SharedHeader';
+import { useTheme } from '../context/ThemeContext';
 
 const { Title, Text } = Typography;
 
@@ -58,6 +59,8 @@ const AnalysisPage: React.FC = () => {
   const [loading, setLoading] = useState(!!query);
   const [error, setError] = useState(false);
   const [data, setData] = useState<AnalysisResult | null>(null);
+  const { isDarkMode } = useTheme();
+  const { token } = theme.useToken();
 
   useEffect(() => {
     if (!query) {
@@ -104,7 +107,7 @@ const AnalysisPage: React.FC = () => {
   // ── Empty query: show search prompt ──
   if (!query) {
     return (
-      <div style={{ minHeight: '100vh', background: '#020b16' }}>
+      <div style={{ minHeight: '100vh', background: token.colorBgLayout }}>
         <SharedHeader />
         <div style={{
           minHeight: '100vh',
@@ -112,7 +115,7 @@ const AnalysisPage: React.FC = () => {
           alignItems: 'center',
           justifyContent: 'center',
           padding: '88px 24px 24px',
-          background: 'radial-gradient(ellipse at 50% 30%, rgba(77,161,255,0.06) 0%, transparent 60%)',
+          background: isDarkMode ? 'radial-gradient(ellipse at 50% 30%, rgba(77,161,255,0.06) 0%, transparent 60%)' : 'radial-gradient(ellipse at 50% 30%, rgba(77,161,255,0.15) 0%, transparent 60%)',
         }}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -121,10 +124,10 @@ const AnalysisPage: React.FC = () => {
             style={{ textAlign: 'center', maxWidth: 540 }}
           >
             <div style={{ fontSize: 72, marginBottom: 24 }}>🔍</div>
-            <Title style={{ color: '#fff', fontSize: 32, fontWeight: 800, marginBottom: 12 }}>
+            <Title style={{ color: token.colorTextHeading, fontSize: 32, fontWeight: 800, marginBottom: 12 }}>
               Que souhaitez-vous analyser ?
             </Title>
-            <Text style={{ color: 'rgba(255,255,255,0.55)', fontSize: 16, display: 'block', marginBottom: 40 }}>
+            <Text style={{ color: token.colorTextSecondary, fontSize: 16, display: 'block', marginBottom: 40 }}>
               Entrez le nom d'un produit pour lancer l'analyse des prix sur Jumia, AliExpress et eBay.
             </Text>
             <div style={{ display: 'flex', gap: 12, maxWidth: 480, margin: '0 auto' }}>
@@ -140,11 +143,11 @@ const AnalysisPage: React.FC = () => {
                 style={{
                   flex: 1,
                   height: 50,
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(77,161,255,0.4)',
+                  background: token.colorBgContainer,
+                  border: `1px solid ${token.colorPrimary}`,
                   borderRadius: 12,
                   padding: '0 16px',
-                  color: '#fff',
+                  color: token.colorText,
                   fontSize: 15,
                   outline: 'none',
                 }}
@@ -167,7 +170,7 @@ const AnalysisPage: React.FC = () => {
                   key={s}
                   size="small"
                   onClick={() => navigate(`/analyse?q=${encodeURIComponent(s)}`)}
-                  style={{ borderRadius: 20, borderColor: 'rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.6)', background: 'transparent', fontSize: 12 }}
+                  style={{ borderRadius: 20, borderColor: token.colorBorder, color: token.colorTextSecondary, background: 'transparent', fontSize: 12 }}
                 >
                   {s}
                 </Button>
@@ -180,23 +183,23 @@ const AnalysisPage: React.FC = () => {
   }
 
   if (loading) return (
-    <div style={{ minHeight: '100vh', background: '#020b16', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: token.colorBgLayout, display: 'flex', flexDirection: 'column' }}>
       <SharedHeader />
       <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: 16 }}>
         <Spin size="large" />
-        <Text style={{ color: 'rgba(255,255,255,0.5)' }}>Analyse en cours pour « {query} »…</Text>
+        <Text style={{ color: token.colorTextSecondary }}>Analyse en cours pour « {query} »…</Text>
       </div>
     </div>
   );
 
   if (error || !data) return (
-    <div style={{ minHeight: '100vh', background: '#020b16' }}>
+    <div style={{ minHeight: '100vh', background: token.colorBgLayout }}>
       <SharedHeader />
       <div style={{ paddingTop: 88 }}>
         <Result
           status="error"
-          title={<span style={{ color: '#fff' }}>Erreur lors de l'analyse</span>}
-          subTitle={<span style={{ color: 'rgba(255,255,255,0.55)' }}>Vérifiez votre connexion ou réessayez avec un autre produit.</span>}
+          title={<span style={{ color: token.colorTextHeading }}>Erreur lors de l'analyse</span>}
+          subTitle={<span style={{ color: token.colorTextSecondary }}>Vérifiez votre connexion ou réessayez avec un autre produit.</span>}
           extra={[<Button type="primary" onClick={() => navigate('/analyse')}>Nouvelle recherche</Button>]}
         />
       </div>
@@ -231,7 +234,7 @@ const AnalysisPage: React.FC = () => {
   ];
 
   return (
-    <div style={{ minHeight: '100vh', background: '#020b16' }}>
+    <div style={{ minHeight: '100vh', background: token.colorBgLayout }}>
       <SharedHeader />
       <div style={{ paddingTop: 64 }}>
     <PageContainer
@@ -245,7 +248,7 @@ const AnalysisPage: React.FC = () => {
           ],
         },
         extra: [
-          <Button key="export" icon={<PrinterOutlined />}>Exporter PDF</Button>,
+          <Button key="export" icon={<PrinterOutlined />} onClick={() => window.print()}>Exporter PDF</Button>,
           <Button key="new" type="primary" onClick={() => navigate('/analyse')}>Nouvelle recherche</Button>,
         ],
       }}
@@ -289,9 +292,9 @@ const AnalysisPage: React.FC = () => {
               <div style={{ height: 300 }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={barData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: 8 }} />
+                    <XAxis dataKey="name" stroke={token.colorTextSecondary} />
+                    <YAxis stroke={token.colorTextSecondary} />
+                    <Tooltip cursor={{ fill: 'transparent' }} contentStyle={{ borderRadius: 8, background: token.colorBgElevated, border: 'none', color: token.colorText }} />
                     <ReferenceLine x="2.4k-2.8k" stroke={COLORS.error} label="Médiane" strokeDasharray="3 3" />
                     <Bar
                       dataKey="count"
@@ -325,8 +328,8 @@ const AnalysisPage: React.FC = () => {
                         <Cell key={`cell-${index}`} fill={entry.fill} />
                       ))}
                     </Pie>
-                    <Tooltip />
-                    <Legend verticalAlign="bottom" height={36} />
+                    <Tooltip contentStyle={{ background: token.colorBgElevated, border: 'none', color: token.colorText }} />
+                    <Legend verticalAlign="bottom" height={36} wrapperStyle={{ color: token.colorText }} />
                   </PieChart>
                 </ResponsiveContainer>
                 <div style={{
@@ -399,14 +402,14 @@ const AnalysisPage: React.FC = () => {
             <div style={{ height: 300 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart data={boxPlotData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-                  <XAxis dataKey="platform" />
-                  <YAxis />
+                  <XAxis dataKey="platform" stroke={token.colorTextSecondary} />
+                  <YAxis stroke={token.colorTextSecondary} />
                   <Tooltip
                     content={({ active, payload }) => {
                       if (active && payload && payload.length) {
                         const data = payload[0].payload;
                         return (
-                          <div style={{ background: '#fff', padding: 12, border: '1px solid #ccc', borderRadius: 4 }}>
+                          <div style={{ background: token.colorBgElevated, padding: 12, border: `1px solid ${token.colorBorder}`, borderRadius: 4, color: token.colorText }}>
                             <p><strong>{data.platform}</strong></p>
                             <p>Max: {data.max}</p>
                             <p>Q3: {data.q3}</p>

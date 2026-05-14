@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Row, Col, Card, Typography, Button, Tag, Divider } from 'antd';
+import { Row, Col, Card, Typography, Button, Tag, Divider, theme } from 'antd';
 import {
   ApiOutlined,
   DatabaseOutlined,
@@ -16,6 +16,7 @@ import {
 import { motion } from 'framer-motion';
 import '../assets/homepage.css';
 import SharedHeader from '../components/SharedHeader';
+import { useTheme } from '../context/ThemeContext';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -99,25 +100,27 @@ const projectSteps = [
 /* ─── Component ──────────────────────────────────────── */
 const AboutPage: React.FC = () => {
   const navigate = useNavigate();
+  const { isDarkMode } = useTheme();
+  const { token } = theme.useToken();
 
   return (
-    <div style={{ minHeight: '100vh', background: '#020b16', color: '#fff' }}>
+    <div style={{ minHeight: '100vh', background: token.colorBgLayout, color: token.colorText }}>
       <SharedHeader />
 
       {/* ── HERO BANNER ── */}
       <motion.div {...fadeUp()} style={{
         textAlign: 'center', padding: '120px 24px 60px',
-        background: 'linear-gradient(180deg, rgba(77,161,255,0.08) 0%, transparent 100%)',
-        borderBottom: '1px solid rgba(255,255,255,0.05)',
+        background: isDarkMode ? 'linear-gradient(180deg, rgba(77,161,255,0.08) 0%, transparent 100%)' : 'linear-gradient(180deg, rgba(77,161,255,0.15) 0%, transparent 100%)',
+        borderBottom: `1px solid ${token.colorBorderSecondary}`,
       }}>
         <Tag color="blue" style={{ marginBottom: 20, fontSize: 13, padding: '4px 16px', borderRadius: 20 }}>
           Projet Data Mining — 2025/2026
         </Tag>
-        <Title style={{ fontSize: 52, color: '#fff', fontWeight: 800, marginBottom: 16, letterSpacing: '-1px' }}>
+        <Title style={{ fontSize: 52, color: token.colorTextHeading, fontWeight: 800, marginBottom: 16, letterSpacing: '-1px' }}>
           À propos de{' '}
-          <span className="hero-gradient-text">MarketMetrics</span>
+          <span className="hero-gradient-text" style={{ background: `linear-gradient(90deg, ${token.colorPrimary}, #a261ff)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>MarketMetrics</span>
         </Title>
-        <Paragraph style={{ fontSize: 18, color: 'rgba(255,255,255,0.65)', maxWidth: 680, margin: '0 auto 40px' }}>
+        <Paragraph style={{ fontSize: 18, color: token.colorTextSecondary, maxWidth: 680, margin: '0 auto 40px' }}>
           Une plateforme de veille tarifaire intelligente combinant scraping web, data mining et visualisation
           interactive pour analyser les prix en temps réel sur les marchés e-commerce.
         </Paragraph>
@@ -134,17 +137,17 @@ const AboutPage: React.FC = () => {
         <motion.div {...fadeUp()} style={{ marginBottom: 80 }}>
           <Row gutter={[40, 40]} align="middle">
             <Col xs={24} lg={12}>
-              <Title level={2} style={{ color: '#fff', marginBottom: 20 }}>
-                <BulbOutlined style={{ color: '#4da1ff', marginRight: 12 }} />
+              <Title level={2} style={{ color: token.colorTextHeading, marginBottom: 20 }}>
+                <BulbOutlined style={{ color: token.colorPrimary, marginRight: 12 }} />
                 Objectif du Projet
               </Title>
-              <Paragraph style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, lineHeight: 1.8, marginBottom: 16 }}>
+              <Paragraph style={{ color: token.colorTextSecondary, fontSize: 16, lineHeight: 1.8, marginBottom: 16 }}>
                 MarketMetrics est une application de <strong style={{ color: '#4da1ff' }}>Market Research & Price Analysis</strong> développée
                 dans le cadre d'un projet académique en Data Mining. Elle permet de collecter automatiquement des
                 offres de produits sur plusieurs marketplaces et d'appliquer des algorithmes de Machine Learning
                 pour analyser les tendances de prix.
               </Paragraph>
-              <Paragraph style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, lineHeight: 1.8 }}>
+              <Paragraph style={{ color: token.colorTextSecondary, fontSize: 16, lineHeight: 1.8 }}>
                 L'objectif principal est de fournir aux consommateurs et aux entreprises une vision claire du marché :
                 identifier les prix anormaux, segmenter les offres par gamme de prix, et recommander les meilleures opportunités d'achat.
               </Paragraph>
@@ -158,10 +161,10 @@ const AboutPage: React.FC = () => {
                   { label: 'Membres équipe', value: '4', sub: 'Étudiants ingénieurs', color: '#faad14' },
                 ].map((item, i) => (
                   <Col xs={12} key={i}>
-                    <Card bordered={false} className="stat-card" bodyStyle={{ padding: 20 }}>
+                    <Card bordered={false} style={{ background: token.colorBgContainer, border: `1px solid ${item.color}25`, borderLeft: `3px solid ${item.color}`, borderRadius: 12 }} styles={{ body: { padding: 20 } }}>
                       <div style={{ fontSize: 36, fontWeight: 800, color: item.color }}>{item.value}</div>
-                      <div style={{ color: '#fff', fontWeight: 600, fontSize: 14, marginBottom: 4 }}>{item.label}</div>
-                      <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 12 }}>{item.sub}</div>
+                      <div style={{ color: token.colorTextHeading, fontWeight: 600, fontSize: 14, marginBottom: 4 }}>{item.label}</div>
+                      <div style={{ color: token.colorTextSecondary, fontSize: 12 }}>{item.sub}</div>
                     </Card>
                   </Col>
                 ))}
@@ -175,8 +178,8 @@ const AboutPage: React.FC = () => {
         {/* ── HOW IT WORKS ── */}
         <motion.div {...fadeUp()} style={{ marginBottom: 80 }}>
           <div style={{ textAlign: 'center', marginBottom: 52 }}>
-            <Title level={2} style={{ color: '#fff', marginBottom: 12 }}>Comment ça fonctionne ?</Title>
-            <Paragraph style={{ color: 'rgba(255,255,255,0.55)', fontSize: 16, maxWidth: 520, margin: '0 auto' }}>
+            <Title level={2} style={{ color: token.colorTextHeading, marginBottom: 12 }}>Comment ça fonctionne ?</Title>
+            <Paragraph style={{ color: token.colorTextSecondary, fontSize: 16, maxWidth: 520, margin: '0 auto' }}>
               Un pipeline de bout en bout de la collecte à la visualisation.
             </Paragraph>
           </div>
@@ -186,7 +189,7 @@ const AboutPage: React.FC = () => {
                 <motion.div {...fadeUp(idx * 0.1)}>
                   <Card bordered={false} style={{
                     height: '100%',
-                    background: 'rgba(255,255,255,0.04)',
+                    background: token.colorBgContainer,
                     border: `1px solid ${step.color}25`,
                     borderTop: `3px solid ${step.color}`,
                     borderRadius: 16,
@@ -203,8 +206,8 @@ const AboutPage: React.FC = () => {
                         fontSize: 20, color: step.color,
                       }}>{step.icon}</div>
                     </div>
-                    <Title level={4} style={{ color: '#fff', marginBottom: 12 }}>{step.title}</Title>
-                    <Paragraph style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.7, margin: 0 }}>{step.desc}</Paragraph>
+                    <Title level={4} style={{ color: token.colorTextHeading, marginBottom: 12 }}>{step.title}</Title>
+                    <Paragraph style={{ color: token.colorTextSecondary, lineHeight: 1.7, margin: 0 }}>{step.desc}</Paragraph>
                   </Card>
                 </motion.div>
               </Col>
@@ -217,8 +220,8 @@ const AboutPage: React.FC = () => {
         {/* ── TECH STACK ── */}
         <motion.div {...fadeUp()} style={{ marginBottom: 80 }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <Title level={2} style={{ color: '#fff', marginBottom: 12 }}>Stack Technologique</Title>
-            <Paragraph style={{ color: 'rgba(255,255,255,0.55)', fontSize: 16, maxWidth: 500, margin: '0 auto' }}>
+            <Title level={2} style={{ color: token.colorTextHeading, marginBottom: 12 }}>Stack Technologique</Title>
+            <Paragraph style={{ color: token.colorTextSecondary, fontSize: 16, maxWidth: 500, margin: '0 auto' }}>
               Des outils modernes et éprouvés pour chaque couche du système.
             </Paragraph>
           </div>
@@ -228,7 +231,7 @@ const AboutPage: React.FC = () => {
                 <motion.div {...fadeUp(idx * 0.08)}>
                   <Card bordered={false} style={{
                     height: '100%',
-                    background: 'rgba(255,255,255,0.04)',
+                    background: token.colorBgContainer,
                     border: `1px solid ${tech.color}20`,
                     borderRadius: 14,
                   }} bodyStyle={{ padding: 24 }}>
@@ -239,7 +242,7 @@ const AboutPage: React.FC = () => {
                         display: 'flex', justifyContent: 'center', alignItems: 'center',
                         fontSize: 18, color: tech.color,
                       }}>{tech.icon}</div>
-                      <Text style={{ color: '#fff', fontWeight: 700, fontSize: 15 }}>{tech.category}</Text>
+                      <Text style={{ color: token.colorTextHeading, fontWeight: 700, fontSize: 15 }}>{tech.category}</Text>
                     </div>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                       {tech.items.map(item => (
@@ -264,8 +267,8 @@ const AboutPage: React.FC = () => {
         {/* ── TEAM ── */}
         <motion.div {...fadeUp()} style={{ marginBottom: 80 }}>
           <div style={{ textAlign: 'center', marginBottom: 52 }}>
-            <Title level={2} style={{ color: '#fff', marginBottom: 12 }}>L'Équipe</Title>
-            <Paragraph style={{ color: 'rgba(255,255,255,0.55)', fontSize: 16, maxWidth: 540, margin: '0 auto' }}>
+            <Title level={2} style={{ color: token.colorTextHeading, marginBottom: 12 }}>L'Équipe</Title>
+            <Paragraph style={{ color: token.colorTextSecondary, fontSize: 16, maxWidth: 540, margin: '0 auto' }}>
               Quatre étudiants, quatre expertises complémentaires, un seul projet.
             </Paragraph>
           </div>
@@ -275,7 +278,7 @@ const AboutPage: React.FC = () => {
                 <motion.div {...fadeUp(idx * 0.1)} whileHover={{ y: -4 }}>
                   <Card bordered={false} style={{
                     height: '100%',
-                    background: 'rgba(255,255,255,0.04)',
+                    background: token.colorBgContainer,
                     border: `1px solid ${member.color}25`,
                     borderLeft: `4px solid ${member.color}`,
                     borderRadius: 14,
@@ -289,7 +292,7 @@ const AboutPage: React.FC = () => {
                         fontSize: 22, color: member.color, flexShrink: 0,
                       }}>{member.icon}</div>
                       <div>
-                        <div style={{ color: '#fff', fontWeight: 700, fontSize: 17 }}>{member.name}</div>
+                        <div style={{ color: token.colorTextHeading, fontWeight: 700, fontSize: 17 }}>{member.name}</div>
                         <div style={{ color: member.color, fontSize: 13, fontWeight: 500, marginTop: 3 }}>{member.role}</div>
                       </div>
                     </div>
@@ -299,7 +302,7 @@ const AboutPage: React.FC = () => {
                       {member.responsibilities.map((r, i) => (
                         <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: 8 }}>
                           <CheckCircleOutlined style={{ color: member.color, fontSize: 13, marginTop: 3, flexShrink: 0 }} />
-                          <Text style={{ color: 'rgba(255,255,255,0.65)', fontSize: 13, lineHeight: 1.6 }}>{r}</Text>
+                          <Text style={{ color: token.colorTextSecondary, fontSize: 13, lineHeight: 1.6 }}>{r}</Text>
                         </div>
                       ))}
                     </div>
@@ -324,10 +327,10 @@ const AboutPage: React.FC = () => {
         </motion.div>
 
         {/* ── CTA ── */}
-        <motion.div {...fadeUp()} style={{ textAlign: 'center', padding: '60px 24px', background: 'rgba(77,161,255,0.06)', borderRadius: 20, border: '1px solid rgba(77,161,255,0.15)' }}>
-          <GithubOutlined style={{ fontSize: 40, color: 'rgba(255,255,255,0.4)', marginBottom: 16 }} />
-          <Title level={3} style={{ color: '#fff', marginBottom: 12 }}>Prêt à analyser le marché ?</Title>
-          <Paragraph style={{ color: 'rgba(255,255,255,0.55)', fontSize: 16, marginBottom: 28 }}>
+        <motion.div {...fadeUp()} style={{ textAlign: 'center', padding: '60px 24px', background: isDarkMode ? 'rgba(77,161,255,0.06)' : 'rgba(77,161,255,0.1)', borderRadius: 20, border: '1px solid rgba(77,161,255,0.15)' }}>
+          <GithubOutlined style={{ fontSize: 40, color: token.colorTextTertiary, marginBottom: 16 }} />
+          <Title level={3} style={{ color: token.colorTextHeading, marginBottom: 12 }}>Prêt à analyser le marché ?</Title>
+          <Paragraph style={{ color: token.colorTextSecondary, fontSize: 16, marginBottom: 28 }}>
             Lancez votre première recherche et découvrez les meilleures opportunités de prix.
           </Paragraph>
           <Button

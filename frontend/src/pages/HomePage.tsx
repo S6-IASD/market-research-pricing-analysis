@@ -20,6 +20,7 @@ import {
 } from '@ant-design/icons';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import '../assets/homepage.css';
 import heroBg from '../assets/hero-bg.png';
 
@@ -29,7 +30,8 @@ const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const shouldReduceMotion = useReducedMotion();
   const { isAuthenticated, logout } = useAuth();
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const { isDarkMode, toggleDarkMode } = useTheme();
+  const { token } = theme.useToken();
   const [searchQuery, setSearchQuery] = useState('');
   const [platforms, setPlatforms] = useState(['jumia', 'aliexpress', 'ebay']);
   const [deepSearch, setDeepSearch] = useState(false);
@@ -48,36 +50,34 @@ const HomePage: React.FC = () => {
     { label: 'eBay', value: 'ebay' },
   ];
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
+
 
   const headerRender = () => (
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', padding: '0 32px', height: '100%' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '48px' }}>
-        <div style={{ fontSize: '22px', fontWeight: 'bold', color: '#fff', display: 'flex', alignItems: 'center', gap: 8 }}>
-          <LineChartOutlined style={{ color: '#4da1ff' }} /> MarketMetrics
+        <div style={{ fontSize: '22px', fontWeight: 'bold', color: token.colorTextHeading, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <LineChartOutlined style={{ color: token.colorPrimary }} /> MarketMetrics
         </div>
         <nav style={{ display: 'flex', gap: '8px', height: '100%', alignItems: 'center' }}>
-          <Button type="text" className="nav-link active" onClick={() => navigate('/')}>Accueil</Button>
-          <Button type="text" className="nav-link" onClick={() => navigate('/produits')}>Données</Button>
-          <Button type="text" className="nav-link" onClick={() => navigate('/analyse')}>Analyse</Button>
-          <Button type="text" className="nav-link" onClick={() => navigate('/about')}>À propos</Button>
+          <Button type="text" onClick={() => navigate('/')} style={{ color: token.colorPrimary, fontWeight: 600 }}>Accueil</Button>
+          <Button type="text" onClick={() => navigate('/produits')} style={{ color: token.colorTextSecondary }}>Données</Button>
+          <Button type="text" onClick={() => navigate('/analyse')} style={{ color: token.colorTextSecondary }}>Analyse</Button>
+          <Button type="text" onClick={() => navigate('/about')} style={{ color: token.colorTextSecondary }}>À propos</Button>
         </nav>
       </div>
       <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
         <Button
           type="text"
           shape="circle"
-          style={{ border: '1px solid rgba(255,255,255,0.2)', color: '#fff' }}
+          style={{ border: `1px solid ${token.colorBorder}`, color: token.colorText }}
           icon={isDarkMode ? <SunOutlined /> : <MoonOutlined />}
           onClick={toggleDarkMode}
         />
         {isAuthenticated ? (
-          <Button className="header-btn-logout" icon={<LogoutOutlined />} onClick={logout}>Déconnexion</Button>
+          <Button className="header-btn-logout" icon={<LogoutOutlined />} onClick={logout} style={{ color: token.colorError, borderColor: token.colorError }}>Déconnexion</Button>
         ) : (
           <>
-            <Button type="link" style={{ color: 'rgba(255,255,255,0.85)' }} onClick={() => navigate('/login')}>Connexion</Button>
+            <Button type="link" style={{ color: token.colorTextSecondary }} onClick={() => navigate('/login')}>Connexion</Button>
             <Button type="primary" icon={<UserOutlined />} onClick={() => navigate('/register')} style={{ borderRadius: 20 }}>S'inscrire</Button>
           </>
         )}
@@ -117,20 +117,20 @@ const HomePage: React.FC = () => {
   ];
 
   return (
-    <ConfigProvider theme={{ algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm }}>
+    <>
       <ProLayout
         layout="top"
         title="MarketMetrics"
         logo={null}
         fixedHeader
         headerRender={headerRender}
-        contentStyle={{ padding: 0, margin: 0, minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#020b16' }}
+        contentStyle={{ padding: 0, margin: 0, minHeight: '100vh', display: 'flex', flexDirection: 'column', background: token.colorBgLayout }}
         token={{
           header: {
-            colorBgHeader: 'rgba(2, 11, 22, 0.97)',
-            colorHeaderTitle: '#fff',
+            colorBgHeader: isDarkMode ? 'rgba(2, 11, 22, 0.97)' : 'rgba(255, 255, 255, 0.97)',
+            colorHeaderTitle: token.colorTextHeading,
             heightLayoutHeader: 72,
-            colorTextMenu: '#fff',
+            colorTextMenu: token.colorText,
           },
         }}
       >
@@ -143,7 +143,9 @@ const HomePage: React.FC = () => {
           justifyContent: 'center',
           textAlign: 'center',
           padding: '100px 24px 80px',
-          backgroundImage: `linear-gradient(to bottom, rgba(2,11,22,0.25) 0%, rgba(2,11,22,0.75) 65%, rgba(2,11,22,1) 100%), url(${heroBg})`,
+          backgroundImage: isDarkMode 
+            ? `linear-gradient(to bottom, rgba(2,11,22,0.25) 0%, rgba(2,11,22,0.75) 65%, ${token.colorBgLayout} 100%), url(${heroBg})`
+            : `linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.85) 65%, ${token.colorBgLayout} 100%), url(${heroBg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center top',
           backgroundRepeat: 'no-repeat',
@@ -154,11 +156,11 @@ const HomePage: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: 'easeOut' }}
             >
-              <Title style={{ fontSize: '58px', marginBottom: 0, color: '#fff', fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.15 }}>
+              <Title style={{ fontSize: '58px', marginBottom: 0, color: token.colorTextHeading, fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.15 }}>
                 Analysez les prix du marché
               </Title>
               <Title style={{ fontSize: '58px', marginTop: 0, marginBottom: 24, fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.15 }}>
-                <span className="hero-gradient-text">en temps réel</span>
+                <span className="hero-gradient-text" style={{ background: `linear-gradient(90deg, ${token.colorPrimary}, #a261ff)`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>en temps réel</span>
               </Title>
             </motion.div>
 
@@ -167,7 +169,7 @@ const HomePage: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15, ease: 'easeOut' }}
             >
-              <Paragraph style={{ fontSize: '18px', marginBottom: 48, color: 'rgba(255,255,255,0.75)' }}>
+              <Paragraph style={{ fontSize: '18px', marginBottom: 48, color: token.colorTextSecondary }}>
                 Collecte automatique • Data Mining • Visualisation intelligente
               </Paragraph>
             </motion.div>
@@ -185,7 +187,7 @@ const HomePage: React.FC = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onPressEnter={handleSearch}
-                  prefix={<div style={{ padding: '0 8px', color: 'rgba(255,255,255,0.4)' }}>🔍</div>}
+                  prefix={<div style={{ padding: '0 8px', color: token.colorTextTertiary }}>🔍</div>}
                 />
                 <Button type="primary" className="search-btn" onClick={handleSearch}>
                   Rechercher →
@@ -199,9 +201,9 @@ const HomePage: React.FC = () => {
                   value={platforms}
                   onChange={(list) => setPlatforms(list as string[])}
                 />
-                <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', padding: '6px 16px', borderRadius: 20, background: deepSearch ? 'rgba(77,161,255,0.15)' : 'rgba(255,255,255,0.06)', border: deepSearch ? '1px solid rgba(77,161,255,0.5)' : '1px solid rgba(255,255,255,0.12)', transition: 'all 0.2s' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', padding: '6px 16px', borderRadius: 20, background: deepSearch ? `${token.colorPrimary}20` : token.colorBgContainer, border: deepSearch ? `1px solid ${token.colorPrimary}` : `1px solid ${token.colorBorder}`, transition: 'all 0.2s' }}>
                   <Checkbox checked={deepSearch} onChange={e => setDeepSearch(e.target.checked)} />
-                  <span style={{ color: deepSearch ? '#4da1ff' : 'rgba(255,255,255,0.65)', fontSize: 13, fontWeight: 500 }}>🔄 Deep Search <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: 12 }}>(scraping live)</span></span>
+                  <span style={{ color: deepSearch ? token.colorPrimary : token.colorTextSecondary, fontSize: 13, fontWeight: 500 }}>🔄 Deep Search <span style={{ color: token.colorTextTertiary, fontSize: 12 }}>(scraping live)</span></span>
                 </label>
               </div>
             </motion.div>
@@ -235,7 +237,7 @@ const HomePage: React.FC = () => {
                   <div className="stat-content">
                     <div className="stat-title">Plateformes</div>
                     <div className="stat-value">3</div>
-                    <div className="stat-change" style={{ color: 'rgba(255,255,255,0.45)' }}>Jumia · AliExpress · eBay</div>
+                    <div className="stat-change" style={{ color: token.colorTextTertiary }}>Jumia · AliExpress · eBay</div>
                   </div>
                 </Card>
               </Col>
@@ -276,20 +278,20 @@ const HomePage: React.FC = () => {
             transition={{ duration: 0.6 }}
             style={{ marginBottom: 80 }}
           >
-            <Title level={2} style={{ textAlign: 'center', marginBottom: 40, color: '#fff' }}>Technologies intégrées</Title>
+            <Title level={2} style={{ textAlign: 'center', marginBottom: 40, color: token.colorTextHeading }}>Technologies intégrées</Title>
             <Row gutter={[24, 24]}>
               <Col xs={24} md={8}>
                 <Card
                   hoverable
                   bordered={false}
-                  style={{ height: '100%', transition: 'transform 0.3s', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
+                  style={{ height: '100%', transition: 'transform 0.3s', background: token.colorBgContainer, border: `1px solid ${token.colorBorderSecondary}` }}
                   styles={{ body: { padding: 32, textAlign: 'center' } }}
                   onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
                 >
-                  <RadarChartOutlined style={{ fontSize: 48, color: '#4096ff', marginBottom: 24 }} />
-                  <Title level={4} style={{ color: '#fff' }}>Clustering intelligent</Title>
-                  <Paragraph style={{ color: 'rgba(255,255,255,0.65)' }}>
+                  <RadarChartOutlined style={{ fontSize: 48, color: token.colorPrimary, marginBottom: 24 }} />
+                  <Title level={4} style={{ color: token.colorTextHeading }}>Clustering intelligent</Title>
+                  <Paragraph style={{ color: token.colorTextSecondary }}>
                     Segmentation automatique des offres par gammes de prix en utilisant l'algorithme K-Means.
                   </Paragraph>
                 </Card>
@@ -298,14 +300,14 @@ const HomePage: React.FC = () => {
                 <Card
                   hoverable
                   bordered={false}
-                  style={{ height: '100%', transition: 'transform 0.3s', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
+                  style={{ height: '100%', transition: 'transform 0.3s', background: token.colorBgContainer, border: `1px solid ${token.colorBorderSecondary}` }}
                   styles={{ body: { padding: 32, textAlign: 'center' } }}
                   onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
                 >
-                  <WarningOutlined style={{ fontSize: 48, color: '#ff4d4f', marginBottom: 24 }} />
-                  <Title level={4} style={{ color: '#fff' }}>Détection d'anomalies</Title>
-                  <Paragraph style={{ color: 'rgba(255,255,255,0.65)' }}>
+                  <WarningOutlined style={{ fontSize: 48, color: token.colorError, marginBottom: 24 }} />
+                  <Title level={4} style={{ color: token.colorTextHeading }}>Détection d'anomalies</Title>
+                  <Paragraph style={{ color: token.colorTextSecondary }}>
                     Identification des prix suspects grâce au modèle de Machine Learning Isolation Forest.
                   </Paragraph>
                 </Card>
@@ -314,14 +316,14 @@ const HomePage: React.FC = () => {
                 <Card
                   hoverable
                   bordered={false}
-                  style={{ height: '100%', transition: 'transform 0.3s', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
+                  style={{ height: '100%', transition: 'transform 0.3s', background: token.colorBgContainer, border: `1px solid ${token.colorBorderSecondary}` }}
                   styles={{ body: { padding: 32, textAlign: 'center' } }}
                   onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-8px)'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
                 >
-                  <RocketOutlined style={{ fontSize: 48, color: '#52c41a', marginBottom: 24 }} />
-                  <Title level={4} style={{ color: '#fff' }}>Résultats instantanés</Title>
-                  <Paragraph style={{ color: 'rgba(255,255,255,0.65)' }}>
+                  <RocketOutlined style={{ fontSize: 48, color: token.colorSuccess, marginBottom: 24 }} />
+                  <Title level={4} style={{ color: token.colorTextHeading }}>Résultats instantanés</Title>
+                  <Paragraph style={{ color: token.colorTextSecondary }}>
                     Pipeline asynchrone avec Celery et PostgreSQL pour une recherche multi-plateforme rapide.
                   </Paragraph>
                 </Card>
@@ -338,8 +340,8 @@ const HomePage: React.FC = () => {
             style={{ marginBottom: 60 }}
           >
             <div style={{ textAlign: 'center', marginBottom: 48 }}>
-              <Title level={2} style={{ color: '#fff', marginBottom: 12 }}>Équipe du Projet</Title>
-              <Paragraph style={{ color: 'rgba(255,255,255,0.55)', fontSize: 16, maxWidth: 560, margin: '0 auto' }}>
+              <Title level={2} style={{ color: token.colorTextHeading, marginBottom: 12 }}>Équipe du Projet</Title>
+              <Paragraph style={{ color: token.colorTextSecondary, fontSize: 16, maxWidth: 560, margin: '0 auto' }}>
                 Conçu et développé par une équipe passionnée d'étudiants en Data Science et Ingénierie logicielle.
               </Paragraph>
             </div>
@@ -358,7 +360,7 @@ const HomePage: React.FC = () => {
                       bordered={false}
                       style={{
                         height: '100%',
-                        background: 'rgba(255,255,255,0.04)',
+                        background: token.colorBgContainer,
                         border: `1px solid ${member.color}30`,
                         borderTop: `3px solid ${member.color}`,
                       }}
@@ -375,11 +377,11 @@ const HomePage: React.FC = () => {
                           {member.icon}
                         </div>
                         <div>
-                          <div style={{ color: '#fff', fontWeight: 700, fontSize: 15, lineHeight: 1.3 }}>{member.name}</div>
+                          <div style={{ color: token.colorTextHeading, fontWeight: 700, fontSize: 15, lineHeight: 1.3 }}>{member.name}</div>
                           <div style={{ color: member.color, fontSize: 12, fontWeight: 500, marginTop: 2 }}>{member.role}</div>
                         </div>
                       </div>
-                      <Paragraph style={{ color: 'rgba(255,255,255,0.6)', fontSize: 13, margin: 0, lineHeight: 1.6 }}>
+                      <Paragraph style={{ color: token.colorTextSecondary, fontSize: 13, margin: 0, lineHeight: 1.6 }}>
                         {member.desc}
                       </Paragraph>
                     </Card>
@@ -391,7 +393,7 @@ const HomePage: React.FC = () => {
 
         </div>
       </ProLayout>
-    </ConfigProvider>
+    </>
   );
 };
 
