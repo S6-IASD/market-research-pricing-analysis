@@ -5,7 +5,7 @@ import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import {
   Input, Segmented, Radio, Switch, Button, Badge, Tag, Image,
   Typography, Space, Empty, Card, Row, Col, ConfigProvider,
-  Modal, Descriptions, Spin, notification, theme
+  Modal, Descriptions, Spin, notification, theme, Progress
 } from 'antd';
 import {
   AppstoreOutlined, LinkOutlined, LoadingOutlined, SearchOutlined,
@@ -62,7 +62,7 @@ const ProductCard: React.FC<{ product: Product; onView: (p: Product) => void }> 
         <div style={{ padding: 16 }}>
           <Paragraph ellipsis={{ rows: 2 }} style={{ color: token.colorTextHeading, fontWeight: 600, fontSize: 14, marginBottom: 8, lineHeight: 1.4 }}>{product.title}</Paragraph>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-            <Text style={{ color: token.colorPrimary, fontSize: 20, fontWeight: 700 }}>{product.price !== null ? `${product.price?.toLocaleString()} MAD` : '—'}</Text>
+            <Text style={{ color: token.colorPrimary, fontSize: 20, fontWeight: 700 }}>{product.price !== null ? `${(product.price_usd ? product.price_usd * 10 : product.price)?.toLocaleString()} MAD` : '—'}</Text>
             {product.cluster_label && <Tag color={product.cluster_label === 'Entrée de gamme' ? 'green' : product.cluster_label === 'Milieu de gamme' ? 'blue' : 'purple'} style={{ margin: 0, borderRadius: 10, fontSize: 11 }}>{product.cluster_label}</Tag>}
           </div>
           <Text style={{ color: token.colorTextSecondary, fontSize: 11 }}>{dayjs(product.first_seen).format('DD/MM/YYYY')}</Text>
@@ -105,7 +105,7 @@ const ProductDetailModal: React.FC<{ product: Product | null; open: boolean; onC
             </div>
           </div>
           <Descriptions column={2} size="small" style={{ marginBottom: 20 }}>
-            <Descriptions.Item label="Prix">{d.price != null ? `${d.price.toLocaleString()} ${d.currency || 'MAD'}` : '—'}</Descriptions.Item>
+            <Descriptions.Item label="Prix">{d.price != null ? `${(d.price_usd ? d.price_usd * 10 : d.price).toLocaleString()} MAD` : '—'}</Descriptions.Item>
             <Descriptions.Item label="Prix USD">{d.price_usd != null ? `$${d.price_usd.toLocaleString()}` : '—'}</Descriptions.Item>
             <Descriptions.Item label="Vendeur">{d.seller || '—'}</Descriptions.Item>
             <Descriptions.Item label="Catégorie">{d.category || '—'}</Descriptions.Item>
@@ -161,6 +161,8 @@ const ProductsListPage: React.FC = () => {
   const [scrapingTaskId, setScrapingTaskId] = useState<string | null>(null);
   const [scrapingFinished, setScrapingFinished] = useState(false);
   const [isStartingDeepSearch, setIsStartingDeepSearch] = useState(false);
+  const [scrapingProgress, setScrapingProgress] = useState<number>(0);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Cleanup polling on unmount
@@ -193,21 +195,34 @@ const ProductsListPage: React.FC = () => {
       if (res.task_id) {
         setScrapingTaskId(res.task_id);
         setScrapingFinished(false);
+        setScrapingProgress(0);
         notification.info({ message: 'Scraping lancé', description: 'Collecte en cours sur les 3 plateformes…', icon: <LoadingOutlined style={{ color: '#4da1ff' }} /> });
+        
         // Poll status
         pollingRef.current = setInterval(async () => {
           try {
             const status = await apiFetch(`/search/${res.task_id}/status/`);
+            
+            // Simuler l'avancement
+            setScrapingProgress(prev => Math.min(prev + 3 + Math.floor(Math.random() * 5), 90));
+            
+            // Rafraîchir les données en temps réel
+            setRefreshTrigger(prev => prev + 1);
+            if (actionRef.current) actionRef.current.reload(false);
+
             if (status.status === 'done' || status.status === 'completed' || status.status === 'failed') {
               if (pollingRef.current) clearInterval(pollingRef.current);
               pollingRef.current = null;
+              setScrapingProgress(100);
+              
               if (status.status !== 'failed') {
-                notification.success({ message: 'Scraping terminé !', description: `${status.result_count || 0} nouveaux produits collectés. Vous pouvez relancer la recherche.`, icon: <CheckCircleOutlined style={{ color: '#52c41a' }} /> });
+                notification.success({ message: 'Scraping terminé !', description: `${status.result_count || 0} nouveaux produits collectés.`, icon: <CheckCircleOutlined style={{ color: '#52c41a' }} /> });
                 setScrapingFinished(true);
               } else {
                 notification.error({ message: 'Scraping échoué', description: 'Une erreur est survenue lors de la collecte.' });
               }
-              setScrapingTaskId(null);
+              
+              setTimeout(() => setScrapingTaskId(null), 2500); // Laisser le temps de voir les 100%
             }
           } catch { /* continue polling */ }
         }, 4000);
@@ -274,7 +289,7 @@ const ProductsListPage: React.FC = () => {
         setCardLoading(false);
       });
     }
-  }, [viewMode, cardPage, query, platform, cluster, hideAnomalies, analysisMap]);
+  }, [viewMode, cardPage, query, platform, cluster, hideAnomalies, analysisMap, refreshTrigger]);
 
   // Enrich product with analysis data
   const enrich = (p: Product): Product => {
@@ -298,7 +313,7 @@ const ProductsListPage: React.FC = () => {
     { title: 'Image', dataIndex: 'image', width: 60, render: (_, r) => <Image width={48} src={r.image} fallback="https://via.placeholder.com/48" preview={false} /> },
     { title: 'Produit', dataIndex: 'title', width: 280, ellipsis: true },
     { title: 'Plateforme', dataIndex: 'platform', width: 120, render: (_, r) => <Badge color={PLATFORM_COLORS[r.platform] || '#d9d9d9'} text={<span style={{ color: token.colorText }}>{PLATFORM_LABELS[r.platform] || r.platform}</span>} /> },
-    { title: 'Prix (MAD)', dataIndex: 'price', width: 110, sorter: true, render: (_, r) => r.price != null ? <Text strong style={{ color: token.colorPrimary }}>{r.price.toLocaleString()}</Text> : '—' },
+    { title: 'Prix (MAD)', dataIndex: 'price', width: 110, sorter: true, render: (_, r) => r.price != null ? <Text strong style={{ color: token.colorPrimary }}>{(r.price_usd ? r.price_usd * 10 : r.price)?.toLocaleString()}</Text> : '—' },
     { title: 'Cluster', dataIndex: 'cluster_label', width: 120, render: (_, r) => { const e = enrich(r); return e.cluster_label ? <Tag color={e.cluster_label.includes('Entrée') ? 'green' : e.cluster_label.includes('Milieu') ? 'blue' : 'purple'}>{e.cluster_label}</Tag> : '—'; } },
     { title: 'Anomalie', dataIndex: 'is_anomaly', width: 90, render: (_, r) => { const e = enrich(r); return e.is_anomaly ? <Tag color="red">⚠ Suspect</Tag> : <Tag color="green">OK</Tag>; } },
     { title: 'Date', dataIndex: 'first_seen', width: 130, render: (_, r) => <span style={{ color: token.colorTextSecondary }}>{dayjs(r.first_seen).format('DD/MM/YYYY')}</span> },
@@ -322,14 +337,14 @@ const ProductsListPage: React.FC = () => {
                 {scrapingTaskId && (
                   <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
                     <div style={{
-                      display: 'flex', alignItems: 'center', gap: 8, background: `${token.colorPrimary}10`,
-                      border: `1px solid ${token.colorPrimary}30`, padding: '6px 16px', borderRadius: 30,
-                      boxShadow: `0 0 10px ${token.colorPrimary}20`
+                      display: 'flex', alignItems: 'center', gap: 12, background: `${token.colorPrimary}10`,
+                      border: `1px solid ${token.colorPrimary}30`, padding: '6px 20px', borderRadius: 30,
+                      boxShadow: `0 0 10px ${token.colorPrimary}20`, width: 300
                     }}>
-                      <LoadingOutlined style={{ color: token.colorPrimary, fontSize: 16 }} spin />
-                      <span style={{ color: token.colorPrimary, fontSize: 13, fontWeight: 600, letterSpacing: '0.5px' }}>
-                        COLLECTE EN COURS...
+                      <span style={{ color: token.colorPrimary, fontSize: 13, fontWeight: 600, letterSpacing: '0.5px', whiteSpace: 'nowrap' }}>
+                        SCRAPING
                       </span>
+                      <Progress percent={scrapingProgress} size="small" status="active" strokeColor={token.colorPrimary} style={{ margin: 0 }} />
                     </div>
                   </motion.div>
                 )}
@@ -448,14 +463,9 @@ const ProductsListPage: React.FC = () => {
                 };
               }}
               locale={{
-                emptyText: (scrapingTaskId || isStartingDeepSearch) ? (
-                  <div style={{ padding: 60, textAlign: 'center' }}>
-                    <Spin size="large" style={{ marginBottom: 16 }} />
-                    <div style={{ color: token.colorTextSecondary }}>Collecte en cours sur Jumia, AliExpress et eBay...<br/>Veuillez patienter, cela peut prendre quelques minutes.</div>
-                  </div>
-                ) : (
-                  <Empty description={<span style={{ color: token.colorTextSecondary }}>Aucun produit trouvé</span>} image={Empty.PRESENTED_IMAGE_SIMPLE}>
-                    <Button type="primary" onClick={() => navigate('/')}>Modifier la recherche</Button>
+                emptyText: (
+                  <Empty description={<span style={{ color: token.colorTextSecondary }}>Aucun produit trouvé pour l'instant. {scrapingTaskId ? "Les produits apparaîtront ici d'une seconde à l'autre..." : ""}</span>} image={Empty.PRESENTED_IMAGE_SIMPLE}>
+                    {!scrapingTaskId && <Button type="primary" onClick={() => navigate('/')}>Modifier la recherche</Button>}
                   </Empty>
                 )
               }}
@@ -463,13 +473,7 @@ const ProductsListPage: React.FC = () => {
           ) : (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
               {cardLoading ? <div style={{ textAlign: 'center', padding: 80 }}><Spin size="large" /></div>
-                : (cardData.length === 0 && (scrapingTaskId || isStartingDeepSearch)) ? (
-                  <div style={{ textAlign: 'center', padding: 80 }}>
-                    <Spin size="large" style={{ marginBottom: 16 }} />
-                    <div style={{ color: token.colorTextSecondary }}>Collecte en cours sur Jumia, AliExpress et eBay...<br/>Veuillez patienter, cela peut prendre quelques minutes.</div>
-                  </div>
-                )
-                : cardData.length === 0 ? <div style={{ textAlign: 'center', padding: 80 }}><Empty description={<span style={{ color: token.colorTextSecondary }}>Aucun produit trouvé</span>} /></div>
+                : cardData.length === 0 ? <div style={{ textAlign: 'center', padding: 80 }}><Empty description={<span style={{ color: token.colorTextSecondary }}>Aucun produit trouvé pour l'instant. {scrapingTaskId ? "Les produits apparaîtront ici d'une seconde à l'autre..." : ""}</span>} /></div>
                 : <>
                     <Row gutter={[20, 20]}>
                       {cardData.map(p => <Col xs={24} sm={12} md={8} lg={6} key={p.id}><ProductCard product={enrich(p)} onView={openDetail} /></Col>)}
