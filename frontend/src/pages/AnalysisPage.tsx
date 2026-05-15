@@ -157,12 +157,36 @@ const AnalysisPage: React.FC = () => {
         let best_offer: any = { title: "N/A", price: 0, platform: "N/A", score: 0 };
         const validOffers = offers.filter((o: any) => !o.is_anomaly);
         if (validOffers.length > 0) {
-          const sorted = validOffers.sort((a: any, b: any) => a.price - b.price);
-          const best = sorted[0];
-          best_offer = {
-            ...best,
-            score: 95 // Score factice en attendant une logique ML plus complexe
-          };
+          const medianPrice = stats.median;
+          const std = stats.std || 1;
+
+          const scoredOffers = validOffers.map((o: any) => {
+            let score = 50;
+            
+            // Privilégier le "Milieu de gamme" pour éviter les accessoires ou PC sans composants
+            if (o.cluster_label === 'Milieu de gamme') score += 25;
+            else if (o.cluster_label === 'Haut de gamme') score += 10;
+            else if (o.cluster_label === 'Entrée de gamme') score -= 15;
+
+            // Favoriser les prix proches de la médiane (bon rapport qualité/prix)
+            const distanceToMedian = (o.price - medianPrice) / std;
+            if (distanceToMedian < 0 && distanceToMedian >= -1) {
+              score += 15; // Bon deal (moins cher que la médiane, mais raisonnable)
+            } else if (distanceToMedian >= 0 && distanceToMedian <= 1) {
+              score += 10; // Prix standard
+            } else if (distanceToMedian < -1) {
+              score -= 15; // Trop peu cher (suspect d'être un accessoire)
+            }
+
+            if (o.rating) {
+              score += (o.rating / 5) * 15;
+            }
+
+            return { ...o, score: Math.min(99, Math.max(10, Math.round(score))) };
+          });
+
+          const sorted = scoredOffers.sort((a: any, b: any) => b.score - a.score);
+          best_offer = sorted[0];
         }
 
         setData({ 
